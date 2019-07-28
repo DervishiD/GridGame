@@ -2,8 +2,9 @@ package game.fighters
 
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
+import game.world.cells.CellComponent
 
-abstract class AbstractFighter {
+abstract class AbstractFighter : CellComponent{
 
     protected abstract var stats : FighterStats
 

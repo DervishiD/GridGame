@@ -3,21 +3,11 @@ package game.world
 import game.world.cells.AbstractCell
 import game.world.defaults.EmptyCell
 
-class CellGrid {
+class CellGrid(private val grid: Array<Array<AbstractCell>>) {
 
-    private val numberOfLines : Int
+    private val numberOfLines : Int = grid.size
 
-    private val numberOfColumns : Int
-
-    private val grid: Array<Array<AbstractCell>>
-
-    private constructor(grid : Array<Array<AbstractCell>>){
-        numberOfLines = grid.size
-        numberOfColumns = grid[0].size
-        this.grid = grid
-    }
-
-    constructor(lines : Int, columns : Int) : this(Array(lines) { Array<AbstractCell>(columns) { EmptyCell } })
+    private val numberOfColumns : Int = grid[0].size
 
     fun numberOfLines() : Int = numberOfLines
 

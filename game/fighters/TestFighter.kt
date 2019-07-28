@@ -2,8 +2,11 @@ package game.fighters
 
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
+import game.world.cells.CellType
 import game.world.defaults.EmptyCell
+import llayout6.utilities.GraphicAction
 import llayout6.utilities.LObservable
+import java.awt.Graphics
 
 class TestFighter : AbstractFighter() {
     
@@ -46,7 +49,11 @@ class TestFighter : AbstractFighter() {
     override fun currentCell(): AbstractCell = currentCell
 
     override fun canStepOn(cell: AbstractCell): Boolean {
-        return true
+        return cell.cellType() != CellType.TREE_TEST
+    }
+
+    override fun image(): GraphicAction {
+        return { _ : Graphics, _ : Int, _ : Int ->  }
     }
 
 }
