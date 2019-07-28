@@ -3,6 +3,7 @@ package game.world.cells
 import game.fighters.AbstractFighter
 import game.player.Player
 import game.world.Position
+import game.world.defaults.NoComponent
 import llayout6.utilities.GraphicAction
 
 abstract class AbstractCell(private val position : Position) {
@@ -26,6 +27,8 @@ abstract class AbstractCell(private val position : Position) {
     }
 
     abstract val component : CellComponent
+
+    fun containsObject() : Boolean = component != NoComponent
 
     abstract fun actOnFighterStep(fighter : AbstractFighter)
 

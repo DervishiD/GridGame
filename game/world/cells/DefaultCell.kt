@@ -32,6 +32,7 @@ class DefaultCell private constructor(position: Position) : AbstractCell(positio
         return { g : Graphics, w : Int, h : Int ->
             g.color = Color.RED
             g.fillRect(0, 0, w, h)
+            component.image()(g, w, h)
         }
     }
 

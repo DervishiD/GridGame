@@ -7,7 +7,9 @@ class FightGenerator {
     companion object{
 
         fun generateFightFor(zone : Zone, name : CharSequence){
-            TODO("Not implemented.")
+            when(name){
+                else -> TODO("Not implemented.")
+            }
         }
 
     }

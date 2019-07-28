@@ -4,6 +4,7 @@ import game.fights.FightDetector
 import game.fights.FightGenerator
 import game.world.cells.AbstractCell
 import game.world.defaults.EmptyCell
+import llayout6.utilities.GraphicAction
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -66,13 +67,19 @@ class Zone{
         fightGeneration = readFightGeneration(reader)
         cells = generateCellGrid(reader)
     }
-
+    
     fun numberOfLines() : Int = cells.numberOfLines()
 
     fun numberOfColumns() : Int = cells.numberOfColumns()
 
-    private fun hasAFight() : Boolean = FightDetector.detectFightFor(fightDetection)
+    fun hasAFight() : Boolean = FightDetector.detectFightFor(fightDetection)
 
-    private fun generateFight() = FightGenerator.generateFightFor(this, fightGeneration)
+    fun generateFight() = FightGenerator.generateFightFor(this, fightGeneration)
+
+    fun imageAt(line : Int, column : Int) : GraphicAction = cells.imageAt(line, column)
+
+    operator fun contains(position : Position) : Boolean{
+        return position.isPositive() && position.line() < numberOfLines() && position.column() < numberOfColumns()
+    }
 
 }

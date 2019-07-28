@@ -5,7 +5,9 @@ class FightDetector {
     companion object{
 
         fun detectFightFor(name : CharSequence) : Boolean{
-            TODO("Not implemented.")
+            when(name){
+                else -> TODO("Not implemented.")
+            }
         }
 
     }

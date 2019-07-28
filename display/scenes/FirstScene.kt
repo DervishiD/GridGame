@@ -22,7 +22,7 @@ object FirstScene : LScene() {
 
     private val LOAD_GAME_BUTTON : TextButton = TextButton(StringDisplay("Load Game", DEFAULT_MEDIUM_FONT)) { loadGame() }
     private const val LOAD_GAME_X : Double = 0.5
-    private const val LOAD_GAME_Y : Double = 0.8
+    private const val LOAD_GAME_Y : Double = 0.6
 
     init{
         addExitButton()
