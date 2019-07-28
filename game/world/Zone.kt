@@ -67,7 +67,7 @@ class Zone{
         fightGeneration = readFightGeneration(reader)
         cells = generateCellGrid(reader)
     }
-    
+
     fun numberOfLines() : Int = cells.numberOfLines()
 
     fun numberOfColumns() : Int = cells.numberOfColumns()
