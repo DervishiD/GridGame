@@ -24,4 +24,6 @@ class GraphicalSkillTree(private val rootNodes : MutableCollection<GraphicalSkil
         return node != null && node.isAvailable()
     }
 
+    fun rootNodes() : MutableCollection<GraphicalSkillTreeNode> = rootNodes
+
 }

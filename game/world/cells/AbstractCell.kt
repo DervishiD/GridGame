@@ -4,7 +4,7 @@ import game.fighters.AbstractFighter
 import game.player.Player
 import game.world.Position
 import game.world.defaults.NoComponent
-import llayout6.utilities.GraphicAction
+import llayout.utilities.GraphicAction
 
 abstract class AbstractCell(private val position : Position) {
 

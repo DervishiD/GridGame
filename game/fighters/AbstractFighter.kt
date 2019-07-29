@@ -4,29 +4,35 @@ import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
 
-abstract class AbstractFighter : CellComponent{
+abstract class AbstractFighter(private var name : String) : CellComponent{
 
     protected abstract var stats : FighterStats
 
-    protected fun isDead() : Boolean = stats.isDead()
+    fun isDead() : Boolean = stats.isDead()
 
-    protected fun isAlive() : Boolean = stats.isAlive()
+    fun isAlive() : Boolean = stats.isAlive()
 
-    protected fun isNotImmuneToDamage() : Boolean = !isImmuneToDamage()
+    fun isNotImmuneToDamage() : Boolean = !isImmuneToDamage()
 
-    protected fun canNotBeHealed() : Boolean = !canBeHealed()
+    fun canNotBeHealed() : Boolean = !canBeHealed()
 
-    protected fun maxHealth() : Int = stats.maximalHealth().toInt()
+    fun maxHealth() : Int = stats.maximalHealth().toInt()
 
-    protected fun currentHealth() : Int = stats.currentHealth().toInt()
+    fun currentHealth() : Int = stats.currentHealth().toInt()
 
-    protected fun movingDistance() : Float = stats.movingDistance()
+    fun movingDistance() : Float = stats.movingDistance()
+
+    fun name() : String = name
+
+    fun setName(name : String){
+        this.name = name
+    }
 
     abstract fun takeDamage(damage : Float)
 
     protected abstract fun die()
 
-    protected abstract fun isImmuneToDamage() : Boolean
+    abstract fun isImmuneToDamage() : Boolean
 
     protected abstract fun canBeHealed() : Boolean
 

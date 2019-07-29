@@ -4,11 +4,10 @@ import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellType
 import game.world.defaults.EmptyCell
-import llayout6.utilities.GraphicAction
-import llayout6.utilities.LObservable
+import llayout.utilities.GraphicAction
 import java.awt.Graphics
 
-class TestFighter : AbstractFighter() {
+class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
     
     private companion object{
         private const val DEFAULT_MAX_HEALTH : Float = 20.0f

@@ -19,7 +19,7 @@ class SkillTreeNode(private val parent : SkillTreeNode?,
         parent?.addChild(this)
     }
 
-    private fun takeEffect(playerStats : PlayerStats, fighterStats: FighterStats) = effect(playerStats, fighterStats)
+    fun takeEffect(playerStats : PlayerStats, fighterStats: FighterStats) = effect(playerStats, fighterStats)
 
     fun requirementsFulfilled(playerStats: PlayerStats, fighterStats: FighterStats) : Boolean = requirementFunction(playerStats, fighterStats, tree)
 

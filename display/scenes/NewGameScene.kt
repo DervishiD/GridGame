@@ -146,7 +146,11 @@ object NewGameScene : LScene() {
 
     private fun zoneName() : String = GAME_SELECTOR.selectedOption()
 
-    private fun player() : Player = Player(name(), fighter())
+    private fun player() : Player{
+        val fighter : AbstractFighter = fighter()
+        fighter.setName(name())
+        return Player(name(), fighter)
+    }
 
     private fun zone() : Zone = Zone.generateZoneByName(zoneName())
 

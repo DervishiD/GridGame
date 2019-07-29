@@ -5,7 +5,7 @@ import game.world.cells.AbstractFighterCell
 import game.world.cells.CellComponent
 import game.world.Position
 import game.world.cells.CellType
-import llayout6.utilities.GraphicAction
+import llayout.utilities.GraphicAction
 import java.awt.Graphics
 
 object EmptyCell : AbstractFighterCell(Position(0, 0)) {
