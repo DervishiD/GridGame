@@ -2,8 +2,8 @@ package game.skilltree
 
 import game.stats.FighterStats
 import game.stats.PlayerStats
-import llayout6.utilities.GraphicAction
-import llayout6.utilities.Text
+import llayout.utilities.GraphicAction
+import llayout.utilities.Text
 
 class GraphicalSkillTreeNode(private val x : Int,
                              private val y : Int,
@@ -39,5 +39,14 @@ class GraphicalSkillTreeNode(private val x : Int,
     }
 
     fun children() : MutableCollection<GraphicalSkillTreeNode> = children
+
+    internal fun find(name : CharSequence) : GraphicalSkillTreeNode?{
+        if(name() == name) return this
+        for(child : GraphicalSkillTreeNode in children){
+            val result = child.find(name)
+            if(result != null) return result
+        }
+        return null
+    }
 
 }

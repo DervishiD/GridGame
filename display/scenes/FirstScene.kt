@@ -1,12 +1,12 @@
 package display.scenes
 
 import display.frame
-import llayout6.DEFAULT_LARGE_FONT
-import llayout6.DEFAULT_MEDIUM_FONT
-import llayout6.displayers.Label
-import llayout6.displayers.TextButton
-import llayout6.frame.LScene
-import llayout6.utilities.StringDisplay
+import llayout.DEFAULT_LARGE_FONT
+import llayout.DEFAULT_MEDIUM_FONT
+import llayout.displayers.Label
+import llayout.displayers.TextButton
+import llayout.frame.LScene
+import llayout.utilities.StringDisplay
 
 object FirstScene : LScene() {
 

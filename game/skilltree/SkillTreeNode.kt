@@ -2,7 +2,7 @@ package game.skilltree
 
 import game.stats.FighterStats
 import game.stats.PlayerStats
-import llayout6.utilities.Text
+import llayout.utilities.Text
 
 class SkillTreeNode(private val parent : SkillTreeNode?,
                              private val requirementFunction : (PlayerStats, FighterStats, SkillTree) -> Boolean,

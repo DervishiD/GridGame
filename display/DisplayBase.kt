@@ -1,7 +1,7 @@
 package display
 
 import display.scenes.FirstScene
-import llayout6.frame.LFrame
+import llayout.frame.LFrame
 
 private const val TIMER_PERIOD : Int = 20
 

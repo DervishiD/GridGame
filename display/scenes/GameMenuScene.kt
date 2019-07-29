@@ -3,7 +3,7 @@ package display.scenes
 import display.frame
 import game.player.Player
 import game.world.Zone
-import llayout6.frame.LScene
+import llayout.frame.LScene
 
 object GameMenuScene : LScene() {
 

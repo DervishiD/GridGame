@@ -1,8 +1,8 @@
 package display.scenes
 
 import display.frame
-import llayout6.displayers.TextButton
-import llayout6.frame.LScene
+import llayout.displayers.TextButton
+import llayout.frame.LScene
 
 object LoadGameScene : LScene() {
 
