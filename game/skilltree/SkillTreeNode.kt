@@ -2,14 +2,11 @@ package game.skilltree
 
 import game.stats.FighterStats
 import game.stats.PlayerStats
-import llayout6.utilities.GraphicAction
 import llayout6.utilities.Text
 
-abstract class SkillTreeNode(private val parent : SkillTreeNode?,
+class SkillTreeNode(private val parent : SkillTreeNode?,
                              private val requirementFunction : (PlayerStats, FighterStats, SkillTree) -> Boolean,
                              private val effect : (PlayerStats, FighterStats) -> Unit,
-                             private val image : GraphicAction,
-                             private val obtainedImage : GraphicAction,
                              private val name : CharSequence,
                              private val description : Text,
                              private val tree : SkillTree) {
@@ -31,8 +28,6 @@ abstract class SkillTreeNode(private val parent : SkillTreeNode?,
     fun isAvailable() : Boolean = parent == null || parent.isObtained()
 
     fun isObtainable(playerStats: PlayerStats, fighterStats: FighterStats) : Boolean = isAvailable() && requirementsFulfilled(playerStats, fighterStats)
-
-    fun image() : GraphicAction = if(isObtained()) obtainedImage else image
 
     fun description() : Text = description
 
@@ -59,5 +54,7 @@ abstract class SkillTreeNode(private val parent : SkillTreeNode?,
     private fun addChild(child : SkillTreeNode){
         children.add(child)
     }
+
+    fun children() : MutableCollection<SkillTreeNode> = children
 
 }

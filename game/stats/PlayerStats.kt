@@ -8,9 +8,11 @@ class PlayerStats(private val inventory : PlayerInventory, private var points : 
 
         private const val STARTER_PACK_POINTS : Int = 5
 
-        private val STARTER_PACK_INVENTORY : PlayerInventory = PlayerInventory()
+        private fun starterPackInventory() : PlayerInventory{
+            return PlayerInventory()
+        }
 
-        fun starterPack() : PlayerStats = PlayerStats(STARTER_PACK_INVENTORY, STARTER_PACK_POINTS)
+        fun starterPack() : PlayerStats = PlayerStats(starterPackInventory(), STARTER_PACK_POINTS)
 
     }
 

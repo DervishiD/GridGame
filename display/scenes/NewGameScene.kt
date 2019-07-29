@@ -130,19 +130,6 @@ object NewGameScene : LScene() {
         frame.setScene(FirstScene)
     }
 
-    private fun saveGameAndLeave(){
-        saveGame()
-        back()
-    }
-
-    private fun saveGame(){
-        TODO("Not implemented.")
-    }
-
-    private fun startGame(){
-        TODO("Not implemented.")
-    }
-
     private fun generateGamesMap() : Map<Text, String>{
         val result : MutableMap<Text, String> = mutableMapOf()
         val reader = BufferedReader(FileReader(File(SOURCE_FOLDER_NAME + File.separator + GAMES_FOLDER + File.separator + GAMES_FILE_NAME)))
@@ -162,5 +149,18 @@ object NewGameScene : LScene() {
     private fun player() : Player = Player(name(), fighter())
 
     private fun zone() : Zone = Zone.generateZoneByName(zoneName())
+
+    private fun saveGameAndLeave(){
+        saveGame()
+        back()
+    }
+
+    private fun saveGame(){
+        TODO("Not implemented.")
+    }
+
+    private fun startGame(){
+        GameMenuScene.show(player(), zone())
+    }
 
 }
