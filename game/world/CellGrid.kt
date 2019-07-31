@@ -1,8 +1,7 @@
 package game.world
 
 import game.world.cells.AbstractCell
-import game.world.defaults.EmptyCell
-import llayout6.utilities.GraphicAction
+import llayout.utilities.GraphicAction
 
 class CellGrid(private val grid: Array<Array<AbstractCell>>) {
 

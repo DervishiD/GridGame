@@ -28,18 +28,22 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
         this.name = name
     }
 
+    fun level() : Int = stats.level()
+
     abstract fun takeDamage(damage : Float)
 
     protected abstract fun die()
 
     abstract fun isImmuneToDamage() : Boolean
 
-    protected abstract fun canBeHealed() : Boolean
+    abstract fun canBeHealed() : Boolean
 
     abstract fun heal(health : Float)
 
-    protected abstract fun currentCell() : AbstractCell
+    abstract fun type() : CharSequence
 
-    protected abstract fun canStepOn(cell : AbstractCell) : Boolean
+    abstract fun currentCell() : AbstractCell
+
+    abstract fun canStepOn(cell : AbstractCell) : Boolean
 
 }

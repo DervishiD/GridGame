@@ -89,7 +89,7 @@ object NewGameScene : LScene() {
     }
 
     private fun addNameField(){
-        add(NAME_FIELD.matchWordIncludingSpaces().alignLeftTo(NAME_SELECTION_X_ALIGNMENT).setY(NAME_Y))
+        add(NAME_FIELD.matchAlphanumeric().alignLeftTo(NAME_SELECTION_X_ALIGNMENT).setY(NAME_Y))
     }
 
     private fun addFighter(){

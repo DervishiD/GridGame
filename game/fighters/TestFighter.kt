@@ -55,4 +55,6 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
         return { _ : Graphics, _ : Int, _ : Int ->  }
     }
 
+    override fun type(): CharSequence = "testFighter"
+
 }

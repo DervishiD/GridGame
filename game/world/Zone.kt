@@ -4,7 +4,7 @@ import game.fights.FightDetector
 import game.fights.FightGenerator
 import game.world.cells.AbstractCell
 import game.world.defaults.EmptyCell
-import llayout6.utilities.GraphicAction
+import llayout.utilities.GraphicAction
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
