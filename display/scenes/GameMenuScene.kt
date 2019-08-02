@@ -2,10 +2,14 @@ package display.scenes
 
 import display.frame
 import game.fighters.AbstractFighter
+import game.gameobjects.GameObject
 import game.player.Player
+import game.player.QuantifiedObject
 import game.world.Zone
+import llayout.DEFAULT_MEDIUM_FONT
 import llayout.displayers.*
 import llayout.frame.LScene
+import llayout.utilities.StringDisplay
 import java.awt.Color
 import java.awt.Color.BLACK
 import java.awt.Graphics
@@ -18,7 +22,9 @@ object GameMenuScene : LScene() {
 
     private const val MENU_BUTTONS_Y : Double = UPPER_PANE_HEIGHT + LOWER_PANE_HEIGHT / 2
 
-    private const val FIGHTER_INFORMATION_DISPLAYER_HEIGHT : Int = 200
+    private const val FIGHTER_INFORMATION_DISPLAYER_HEIGHT : Int = 180
+
+    private const val OBJECT_INFORMATION_DISPLAYER_HEIGHT : Int = 180
 
     private val PANE_SEPARATOR_COLOUR : Color = BLACK
 
@@ -34,26 +40,27 @@ object GameMenuScene : LScene() {
 
     private const val PANE_HEIGHT : Double = UPPER_PANE_HEIGHT - 2 * (PANE_VERTICAL_GAP)
 
+    private const val LABEL_PANE_GAP : Int = -10
+
     private class FighterInformationDisplayer(private val fighter : AbstractFighter) : ContainerCanvas(1.0, FIGHTER_INFORMATION_DISPLAYER_HEIGHT){
 
         private companion object{
 
-            private const val IMAGE_DISPLAYER_SIZE : Int = 50
-            private const val IMAGE_DISPLAYER_TEAM_INDICATOR_GAP : Int = 10
+            private const val IMAGE_DISPLAYER_SIZE : Int = 80
+            private const val IMAGE_DISPLAYER_TEAM_INDICATOR_GAP : Int = 20
 
-            private const val IMAGE_LEVEL_GAP : Int = 5
-            private const val LEVEL_TOP_ALIGNMENT : Int = 0
+            private const val IMAGE_INFO_GAP : Int = 40
 
-            private const val TYPE_LEVEL_GAP : Int = 10
+            private const val TYPE_BOTTOM_ALIGNMENT : Double = 0.45
 
-            private const val NAME_LEVEL_GAP : Int = 5
-            private const val NAME_IMAGE_GAP : Int = 5
+            private const val NAME_TYPE_GAP : Int = -15
 
-            private const val NAME_BUTTON_GAP : Int = 10
-            private const val TYPE_BUTTON_GAP : Int = 10
+            private const val LEVEL_TYPE_GAP : Int = 15
+
+            private const val BUTTON_LEVEL_GAP : Int = 15
 
             private const val TEAM_INDICATOR_SIZE : Int = 40
-            private const val TEAM_INDICATOR_LEFT_GAP : Int = 10
+            private const val TEAM_INDICATOR_LEFT_GAP : Int = 30
 
             private val FRAME_COLOUR : Color = BLACK
 
@@ -84,7 +91,7 @@ object GameMenuScene : LScene() {
 
             private fun inTeam() : Boolean = inTeam
 
-            private fun toggleTeam() = if(inTeam()) tryAddToTeam() else removeFighterFromTeam()
+            private fun toggleTeam() = if(inTeam()) removeFighterFromTeam() else tryAddToTeam()
 
             private fun tryAddToTeam(){
                 if(teamIsNotFull()) addFighterToTeam()
@@ -117,38 +124,34 @@ object GameMenuScene : LScene() {
         init{
             addTeamIndicator()
             addImageDisplayer()
-            addLevel()
-            addType()
             addName()
+            addType()
+            addLevel()
             addButton()
             twoPixelFrame(FRAME_COLOUR)
         }
 
         private fun addImageDisplayer(){
             add(imageDisplayer
-                .addGraphicAction({ g : Graphics, w : Int, h : Int ->
-                    g.color = BLACK
-                    g.fillRect(0, 0, w, h)
-                    fighter.image()(g, w, h)
-                })
+                .addGraphicAction({ g : Graphics, w : Int, h : Int -> fighter.image()(g, w, h) })
                 .alignLeftToRight(teamIndicator, IMAGE_DISPLAYER_TEAM_INDICATOR_GAP)
                 .setY(0.5))
         }
 
         private fun addLevel(){
-            add(levelLabel.alignLeftToRight(imageDisplayer, IMAGE_LEVEL_GAP).alignTopTo(LEVEL_TOP_ALIGNMENT))
+            add(levelLabel.alignTopToBottom(fighterTypeLabel, LEVEL_TYPE_GAP).alignLeftToLeft(fighterTypeLabel))
         }
 
         private fun addType(){
-            add(fighterTypeLabel.alignLeftToRight(levelLabel, TYPE_LEVEL_GAP).alignTopToTop(levelLabel))
+            add(fighterTypeLabel.alignLeftToRight(imageDisplayer, IMAGE_INFO_GAP).alignBottomTo(TYPE_BOTTOM_ALIGNMENT))
         }
 
         private fun addName(){
-            add(nameLabel.alignTopToBottom(levelLabel, NAME_LEVEL_GAP).alignLeftToRight(imageDisplayer, NAME_IMAGE_GAP))
+            add(nameLabel.alignBottomToTop(fighterTypeLabel, NAME_TYPE_GAP).alignLeftToLeft(fighterTypeLabel))
         }
 
         private fun addButton(){
-            add(showInformationButton.alignLeftToRight(nameLabel, NAME_BUTTON_GAP).alignTopToBottom(fighterTypeLabel, TYPE_BUTTON_GAP))
+            add(showInformationButton.alignTopToBottom(levelLabel, BUTTON_LEVEL_GAP).alignLeftToLeft(fighterTypeLabel))
         }
 
         private fun addTeamIndicator(){
@@ -156,16 +159,69 @@ object GameMenuScene : LScene() {
         }
 
         private fun showInformation(){
+            InfoPane.showInformation(fighter)
+        }
+
+    }
+
+    private object InfoPane : DisplayerContainer(INFO_WIDTH, PANE_HEIGHT){
+
+        fun showInformation(obj : GameObject){
+            TODO("Not implemented.")
+        }
+
+        fun showInformation(fighter : AbstractFighter){
             TODO("Not implemented.")
         }
 
     }
 
-    private object InfoPane : DisplayerContainer(){
+    private class ObjectInformationDisplayer(private val obj : QuantifiedObject) : ContainerCanvas(1.0, OBJECT_INFORMATION_DISPLAYER_HEIGHT){
 
-        private lateinit var fighter : AbstractFighter
+        private companion object{
 
-        //TODO
+            private const val IMAGE_SIZE : Int = 50
+
+            private const val IMAGE_DISPLAYER_LEFT_ALIGNMENT : Int = 40
+
+            private val FRAME_COLOUR : Color = BLACK
+
+            private const val INFO_IMAGE_GAP : Int = 40
+
+            private const val NAME_BOTTOM_ALIGNMENT : Double = 0.45
+
+            private const val BUTTON_TOP_ALIGNMENT : Double = 1 - NAME_BOTTOM_ALIGNMENT
+
+        }
+
+        private val imageDisplayer : Canvas = Canvas(IMAGE_SIZE, IMAGE_SIZE)
+
+        private val nameLabel : Label = Label("${obj.type().name()}  (${obj.quantity()})")
+
+        private val showInformationButton : TextButton = TextButton("Show") { showInformation() }
+
+        init{
+            twoPixelFrame(FRAME_COLOUR)
+            addImage()
+            addNameAndQuantity()
+            addButton()
+        }
+
+        private fun addImage(){
+            add(imageDisplayer.addGraphicAction(obj.type().image()).setY(0.5).alignLeftTo(IMAGE_DISPLAYER_LEFT_ALIGNMENT))
+        }
+
+        private fun addNameAndQuantity(){
+            add(nameLabel.alignLeftToRight(imageDisplayer, INFO_IMAGE_GAP).alignBottomTo(NAME_BOTTOM_ALIGNMENT))
+        }
+
+        private fun addButton(){
+            add(showInformationButton.alignLeftToRight(imageDisplayer, INFO_IMAGE_GAP).alignTopTo(BUTTON_TOP_ALIGNMENT))
+        }
+
+        private fun showInformation(){
+            InfoPane.showInformation(obj.type())
+        }
 
     }
 
@@ -180,10 +236,19 @@ object GameMenuScene : LScene() {
 
     private val FIGHTER_SCROLL_PANE : VerticalScrollPane = VerticalScrollPane(SCROLL_PANE_WIDTH, PANE_HEIGHT)
 
+    private val OBJECT_SCROLL_PANE : VerticalScrollPane = VerticalScrollPane(SCROLL_PANE_WIDTH, PANE_HEIGHT)
+
+    private val FIGHTER_LABEL : Label = Label(StringDisplay("Fighters", DEFAULT_MEDIUM_FONT))
+
+    private val OBJECTS_LABEL : Label = Label(StringDisplay("Objects", DEFAULT_MEDIUM_FONT))
+
     init{
         drawPaneSeparator()
         addMenuButtons()
         addFighterScrollPane()
+        addObjectScrollPane()
+        addFighterLabel()
+        addObjectLabel()
         setOnSaveAction { unloadInformation() }
     }
 
@@ -195,27 +260,27 @@ object GameMenuScene : LScene() {
         this.player = player
         this.zone = zone
         loadFighters()
-        //TODO
+        loadObjects()
         frame.setScene(this)
     }
 
-    fun player() : Player = player
+    private fun player() : Player = player
 
-    fun zone() : Zone = zone
+    private fun zone() : Zone = zone
 
-    fun isInTeam(fighter : AbstractFighter) : Boolean = player.teamContains(fighter)
+    private fun isInTeam(fighter : AbstractFighter) : Boolean = player.teamContains(fighter)
 
-    fun currentTeamSize() : Int = player.teamSize()
+    private fun currentTeamSize() : Int = player.teamSize()
 
-    fun fullTeamSize() : Int = player.fullTeamSize()
+    private fun fullTeamSize() : Int = player.fullTeamSize()
 
-    fun removeFromTeam(fighter : AbstractFighter) = player.removeFromTeam(fighter)
+    private fun removeFromTeam(fighter : AbstractFighter) = player.removeFromTeam(fighter)
 
-    fun addToTeam(fighter : AbstractFighter) = player.addToTeam(fighter)
+    private fun addToTeam(fighter : AbstractFighter) = player.addToTeam(fighter)
 
-    fun teamIsNotFull() : Boolean = !teamIsFull()
+    private fun teamIsNotFull() : Boolean = !teamIsFull()
 
-    fun teamIsFull() : Boolean = currentTeamSize() == fullTeamSize()
+    private fun teamIsFull() : Boolean = currentTeamSize() == fullTeamSize()
 
     private fun drawPaneSeparator(){
         drawLine(0, UPPER_PANE_HEIGHT, 1.0, UPPER_PANE_HEIGHT, PANE_SEPARATOR_COLOUR)
@@ -243,8 +308,26 @@ object GameMenuScene : LScene() {
         add(FIGHTER_SCROLL_PANE.alignLeftTo(SCROLL_PANE_SIDE_GAP).alignTopTo(PANE_VERTICAL_GAP))
     }
 
+    private fun addObjectScrollPane(){
+        add(OBJECT_SCROLL_PANE.alignTopTo(PANE_VERTICAL_GAP).alignLeftTo(SCROLL_PANE_SIDE_GAP + SCROLL_PANE_WIDTH + 2 * SCROLL_PANE_INFO_GAP + INFO_WIDTH))
+    }
+
+    private fun addFighterLabel(){
+        FIGHTER_SCROLL_PANE.addXListener { FIGHTER_LABEL.setX(FIGHTER_SCROLL_PANE.x()) }
+        add(FIGHTER_LABEL.alignBottomToTop(FIGHTER_SCROLL_PANE, LABEL_PANE_GAP))
+    }
+
+    private fun addObjectLabel(){
+        OBJECT_SCROLL_PANE.addXListener { OBJECTS_LABEL.setX(OBJECT_SCROLL_PANE.x()) }
+        add(OBJECTS_LABEL.alignBottomToTop(OBJECT_SCROLL_PANE, LABEL_PANE_GAP))
+    }
+
     private fun loadFighters(){
         for(fighter : AbstractFighter in player().fighters()) FIGHTER_SCROLL_PANE.add(FighterInformationDisplayer(fighter))
+    }
+
+    private fun loadObjects(){
+        for(obj : QuantifiedObject in player().inventory()) OBJECT_SCROLL_PANE.add(ObjectInformationDisplayer(obj))
     }
 
     private fun resume(){
@@ -266,12 +349,19 @@ object GameMenuScene : LScene() {
 
     private fun unloadInformation(){
         unloadFighters()
+        unloadObjects()
         TODO("Not implemented.")
     }
 
     private fun unloadFighters(){
         for(i : Int in 0 until player().fighters().size()){
             FIGHTER_SCROLL_PANE.removeAt(0)
+        }
+    }
+
+    private fun unloadObjects(){
+        for(i : Int in 0 until player().inventory().size()){
+            OBJECT_SCROLL_PANE.removeAt(0)
         }
     }
 

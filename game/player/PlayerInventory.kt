@@ -2,7 +2,7 @@ package game.player
 
 import game.gameobjects.GameObject
 
-class PlayerInventory {
+class PlayerInventory : Iterable<QuantifiedObject>{
 
     private val objects : MutableList<QuantifiedObject> = mutableListOf()
 
@@ -25,5 +25,9 @@ class PlayerInventory {
     }
 
     fun remove(obj : GameObject) = remove(QuantifiedObject(obj))
+
+    fun size() : Int = objects.size
+
+    override operator fun iterator() : Iterator<QuantifiedObject> = objects.iterator()
 
 }

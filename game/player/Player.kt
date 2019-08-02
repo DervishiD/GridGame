@@ -24,6 +24,8 @@ class Player constructor(private val name : String, private val stats : PlayerSt
 
     fun fighters() : FighterList = fighters
 
+    fun inventory() : PlayerInventory = stats.inventory()
+
     fun addToTeam(fighter : AbstractFighter){
         if(teamIsFull()) throw IllegalStateException("The team is already full.")
         team.add(fighter)

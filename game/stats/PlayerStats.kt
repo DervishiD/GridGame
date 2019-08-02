@@ -26,4 +26,6 @@ class PlayerStats(private val inventory : PlayerInventory, private var points : 
 
     fun points() : Int = points
 
+    fun inventory() : PlayerInventory = inventory
+
 }

@@ -1,3 +1,13 @@
 package game.gameobjects
 
-interface GameObject
+import llayout.utilities.GraphicAction
+
+interface GameObject{
+
+    fun name() : CharSequence
+
+    fun description() : CharSequence
+
+    fun image() : GraphicAction
+
+}
