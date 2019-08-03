@@ -1,12 +1,13 @@
 package game.gameobjects
 
 import llayout.utilities.GraphicAction
+import llayout.utilities.StringDisplay
 
 interface GameObject{
 
-    fun name() : CharSequence
+    fun name() : String
 
-    fun description() : CharSequence
+    fun description() : Collection<StringDisplay>
 
     fun image() : GraphicAction
 

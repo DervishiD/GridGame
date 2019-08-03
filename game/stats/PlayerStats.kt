@@ -1,5 +1,6 @@
 package game.stats
 
+import game.gameobjects.TestObject
 import game.player.PlayerInventory
 
 class PlayerStats(private val inventory : PlayerInventory, private var points : Int = 0) {
@@ -9,7 +10,9 @@ class PlayerStats(private val inventory : PlayerInventory, private var points : 
         private const val STARTER_PACK_POINTS : Int = 5
 
         private fun starterPackInventory() : PlayerInventory{
-            return PlayerInventory()
+            val result = PlayerInventory()
+            result.add(TestObject)
+            return result
         }
 
         fun starterPack() : PlayerStats = PlayerStats(starterPackInventory(), STARTER_PACK_POINTS)

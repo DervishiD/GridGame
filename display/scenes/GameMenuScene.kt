@@ -166,12 +166,50 @@ object GameMenuScene : LScene() {
 
     private object InfoPane : DisplayerContainer(INFO_WIDTH, PANE_HEIGHT){
 
+        private const val IMAGE_LEFT_GAP : Int = 30
+        private const val IMAGE_TOP_GAP : Int = 30
+        private const val IMAGE_SIZE : Int = 50
+
+        private const val IMAGE_INFO_GAP : Int = 10
+
+        private const val INFO_TAG_GAP : Int = 10
+
+        private const val OBJECT_NAME_DESCRIPTION_GAP : Int = 30
+
+        private val displayers : MutableCollection<Displayer> = mutableSetOf()
+
         fun showInformation(obj : GameObject){
-            TODO("Not implemented.")
+            clearPane()
+
+            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE).addGraphicAction(obj.image())
+            displayers.add(image)
+            add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
+
+            val nameTag = Label("Name")
+            val nameLabel = Label(StringDisplay(obj.name(), DEFAULT_MEDIUM_FONT))
+            displayers.add(nameTag)
+            displayers.add(nameLabel)
+            add(nameTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToTop(image))
+            add(nameLabel.alignLeftToLeft(nameTag).alignTopToBottom(nameTag, INFO_TAG_GAP))
+
+            val descriptionTag = Label("Description")
+            val description = TextScrollPane(width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP, 0.5)
+            addWidthListener { description.setWidth(width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP) }
+            description.write(obj.description())
+            displayers.add(descriptionTag)
+            displayers.add(description)
+            add(descriptionTag.alignLeftToLeft(nameTag).alignTopToBottom(nameLabel, OBJECT_NAME_DESCRIPTION_GAP))
+            add(description.alignLeftToLeft(nameTag).alignTopToBottom(descriptionTag, INFO_TAG_GAP))
         }
 
         fun showInformation(fighter : AbstractFighter){
+            clearPane()
             TODO("Not implemented.")
+        }
+
+        private fun clearPane(){
+            remove(displayers)
+            displayers.clear()
         }
 
     }
@@ -249,6 +287,7 @@ object GameMenuScene : LScene() {
         addObjectScrollPane()
         addFighterLabel()
         addObjectLabel()
+        addInfoPane()
         setOnSaveAction { unloadInformation() }
     }
 
@@ -320,6 +359,10 @@ object GameMenuScene : LScene() {
     private fun addObjectLabel(){
         OBJECT_SCROLL_PANE.addXListener { OBJECTS_LABEL.setX(OBJECT_SCROLL_PANE.x()) }
         add(OBJECTS_LABEL.alignBottomToTop(OBJECT_SCROLL_PANE, LABEL_PANE_GAP))
+    }
+
+    private fun addInfoPane(){
+        add(InfoPane.alignTopTo(PANE_VERTICAL_GAP).alignLeftTo(SCROLL_PANE_SIDE_GAP + SCROLL_PANE_WIDTH + SCROLL_PANE_INFO_GAP))
     }
 
     private fun loadFighters(){
