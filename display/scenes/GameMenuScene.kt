@@ -1,6 +1,7 @@
 package display.scenes
 
 import display.frame
+import display.specialdisplayers.SkillTreeDisplayer
 import game.fighters.AbstractFighter
 import game.fighters.action.AOEAction
 import game.fighters.action.FighterAction
@@ -188,6 +189,8 @@ object GameMenuScene : LScene() {
 
         private const val ACTION_DESCRIPTION_HEIGHT : Int = 80
 
+        private val POP_UP_PANE_COLOUR : Color = Color(0.8f, 0.8f, 0.8f, 0.2f)
+
         private val displayers : MutableCollection<Displayer> = mutableSetOf()
 
         private val scrollPane : VerticalScrollPane = VerticalScrollPane(1.0, 1.0)
@@ -264,7 +267,7 @@ object GameMenuScene : LScene() {
             pane.add(HPLabel.alignLeftToLeft(HPTag, INFO_TAG_LEFT_GAP).alignTopToBottom(HPTag, INFO_TAG_GAP))
 
             val distanceTag = Label("Moving distance")
-            val distanceLabel = Label(fighter.movingDistance())
+            val distanceLabel = Label("%.1f".format(fighter.movingDistance()))
             displayers.add(distanceTag)
             displayers.add(distanceLabel)
             pane.add(distanceTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(HPLabel, GAP_BETWEEN_INFO))
@@ -332,11 +335,61 @@ object GameMenuScene : LScene() {
         }
 
         private fun levelUpPopUp(fighter : AbstractFighter){
-            TODO("Not implemented.")
+            val popUpPane = ContainerCanvas(1.0, 1.0)
+            popUpPane.fillBackground(POP_UP_PANE_COLOUR)
+            popUpPane.setOnMouseReleasedAction { GameMenuScene.remove(popUpPane) }
+
+            val dialogPane = ContainerCanvas(0.5, 0.5)
+            dialogPane.twoPixelFrame()
+            popUpPane.add(dialogPane.setX(0.5).setY(0.5))
+
+            val canLevelUp : Boolean = fighter.nextLevelRequirements() <= player().points()
+
+            val text = Label(if(canLevelUp)
+                levelUpText(fighter.nextLevelRequirements(), player().points())
+                             else
+                noLevelUpText(fighter.nextLevelRequirements(), player().points()))
+            popUpPane.add(text.setX(0.5).setY(0.3))
+
+            if(canLevelUp){
+                val levelUpButton = TextButton("Level up") {
+                    levelUp(fighter)
+                    GameMenuScene.remove(popUpPane)
+                }
+                popUpPane.add(levelUpButton.setX(0.5).setY(0.7))
+            }
+
+            GameMenuScene.add(popUpPane.setX(0.5).setY(0.5))
+        }
+
+        private fun levelUp(fighter : AbstractFighter){
+            player().removePoints(fighter.nextLevelRequirements())
+            fighter.levelUp()
+            showInformation(fighter)
+            unloadFighters()
+            loadFighters()
+        }
+
+        private fun levelUpText(fighterPoints : Int, playerPoints : Int) : Collection<StringDisplay>{
+            return setOf(StringDisplay("Leveling up will cost you $fighterPoints points.\nYou have $playerPoints points."))
+        }
+
+        private fun noLevelUpText(fighterPoints: Int, playerPoints: Int) : Collection<StringDisplay>{
+            return setOf(StringDisplay("Leveling up costs $fighterPoints points, but you only have $playerPoints."))
         }
 
         private fun skillTreePaneFor(fighter : AbstractFighter){
-            TODO("Not implemented.")
+            val backgroundPane = ContainerCanvas(1.0, 1.0)
+            backgroundPane.fillBackground(POP_UP_PANE_COLOUR)
+            backgroundPane.setOnMouseReleasedAction { GameMenuScene.remove(backgroundPane) }
+
+            val treePane = ContainerCanvas(0.8, 0.8)
+            backgroundPane.add(treePane.setX(0.5).setY(0.5))
+            treePane.add(SkillTreeDisplayer.alignTopTo(0).alignLeftTo(0))
+
+            SkillTreeDisplayer.setTree(fighter, player())
+
+            GameMenuScene.add(backgroundPane.setX(0.5).setY(0.5))
         }
 
     }

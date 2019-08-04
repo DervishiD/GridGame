@@ -2,6 +2,7 @@ package game.fighters
 
 import game.fighters.action.AOEAction
 import game.fighters.action.FighterAction
+import game.skilltree.GraphicalSkillTree
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
@@ -32,6 +33,8 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
 
     fun level() : Int = stats.level()
 
+    fun levelUp() = stats.levelUp()
+
     fun fighterActions() : MutableList<FighterAction> = stats.fighterActions()
 
     fun aoeActions() : MutableList<AOEAction> = stats.aoeActions()
@@ -39,8 +42,6 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     fun nextLevelRequirements() : Int = stats.nextLevelRequirement()
 
     abstract fun takeDamage(damage : Float)
-
-    protected abstract fun die()
 
     abstract fun isImmuneToDamage() : Boolean
 
@@ -53,5 +54,7 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     abstract fun currentCell() : AbstractCell
 
     abstract fun canStepOn(cell : AbstractCell) : Boolean
+
+    abstract fun skillTree() : GraphicalSkillTree
 
 }

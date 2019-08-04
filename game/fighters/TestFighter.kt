@@ -2,6 +2,7 @@ package game.fighters
 
 import game.fighters.action.AOEActionSet
 import game.fighters.action.FighterActionSet
+import game.skilltree.GraphicalSkillTree
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellType
@@ -32,11 +33,7 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
     }
 
     private fun deathCheck(){
-        if(isDead()) die()
-    }
-
-    override fun die() {
-        println("The test fighter is dead")
+        if(isDead()) println("The test fighter is dead")
     }
 
     override fun isImmuneToDamage(): Boolean {
@@ -64,5 +61,7 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
     }
 
     override fun type(): CharSequence = "testFighter"
+
+    override fun skillTree(): GraphicalSkillTree = GraphicalSkillTree.loadFromTreeName("testTree")
 
 }

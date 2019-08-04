@@ -5,13 +5,12 @@ import game.stats.PlayerStats
 import llayout.utilities.Text
 
 class SkillTreeNode(private val parent : SkillTreeNode?,
-                             private val requirementFunction : (PlayerStats, FighterStats, SkillTree) -> Boolean,
-                             private val effect : (PlayerStats, FighterStats) -> Unit,
-                             private val name : CharSequence,
-                             private val description : Text,
-                             private val tree : SkillTree) {
-
-    private var obtained : Boolean = false
+                    private val requirementFunction : (PlayerStats, FighterStats, SkillTree) -> Boolean,
+                    private val effect : (PlayerStats, FighterStats) -> Unit,
+                    private val name : CharSequence,
+                    private val description : CharSequence,
+                    private val tree : SkillTree,
+                    private var obtained : Boolean = false) {
 
     private val children : MutableCollection<SkillTreeNode> = mutableSetOf()
 
@@ -29,7 +28,7 @@ class SkillTreeNode(private val parent : SkillTreeNode?,
 
     fun isObtainable(playerStats: PlayerStats, fighterStats: FighterStats) : Boolean = isAvailable() && requirementsFulfilled(playerStats, fighterStats)
 
-    fun description() : Text = description
+    fun description() : CharSequence = description
 
     fun name() : CharSequence = name
 

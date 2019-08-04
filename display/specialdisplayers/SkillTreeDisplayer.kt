@@ -1,5 +1,7 @@
 package display.specialdisplayers
 
+import game.fighters.AbstractFighter
+import game.player.Player
 import game.skilltree.GraphicalSkillTree
 import game.skilltree.GraphicalSkillTreeNode
 import game.stats.FighterStats
@@ -20,7 +22,7 @@ object SkillTreeDisplayer : ContainerCanvas() {
         init{
             setX(node.x() + zeroX)
             setY(node.y() + zeroY)
-            setOnKeyReleasedAction { displayNodeInformation() }
+            setOnMouseReleasedAction { displayNodeInformation() }
         }
 
         private fun displayNodeInformation(){
@@ -40,6 +42,8 @@ object SkillTreeDisplayer : ContainerCanvas() {
     }
 
     private var tree : GraphicalSkillTree = GraphicalSkillTree()
+    private lateinit var fighter : AbstractFighter
+    private lateinit var player : Player
 
     private var buttons : MutableCollection<NodeButton> = mutableSetOf()
 
@@ -56,9 +60,12 @@ object SkillTreeDisplayer : ContainerCanvas() {
         addGraphicAction({ g : Graphics, _ : Int, _ : Int -> drawTree(g) })
     }
 
-    fun setTree(tree : GraphicalSkillTree){
-        this.tree = tree
+    fun setTree(fighter : AbstractFighter, player: Player){
+        this.tree = fighter.skillTree()
+        this.fighter = fighter
+        this.player = player
         reloadNodeButtons()
+        resize()
     }
 
     private fun updateMousePosition(x : Int, y : Int){
@@ -102,9 +109,11 @@ object SkillTreeDisplayer : ContainerCanvas() {
     }
 
     private fun addNode(node : GraphicalSkillTreeNode){
-        val button = NodeButton(node)
-        buttons.add(button)
-        add(button)
+        if(node.isAvailable()){
+            val button = NodeButton(node)
+            buttons.add(button)
+            add(button)
+        }
         if(node.isObtained()){
             for(child : GraphicalSkillTreeNode in node.children()){
                 addNode(child)
@@ -114,6 +123,17 @@ object SkillTreeDisplayer : ContainerCanvas() {
 
     private fun drawTree(g : Graphics){
         //Nothing?
+    }
+
+    private fun resize(){
+        var maxX = 0
+        var maxY = 0
+        for(b : NodeButton in buttons){
+            if(b.rightSideX() > maxX) maxX = b.rightSideX()
+            if(b.downSideY() > maxY) maxY = b.downSideY()
+        }
+        setWidth(maxX)
+        setHeight(maxY)
     }
 
 }

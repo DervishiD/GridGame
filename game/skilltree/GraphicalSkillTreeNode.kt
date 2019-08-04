@@ -28,7 +28,7 @@ class GraphicalSkillTreeNode(private val x : Int,
 
     fun name() : CharSequence = node.name()
 
-    fun description() : Text = node.description()
+    fun description() : CharSequence = node.description()
 
     fun x() : Int = x
 
