@@ -1,5 +1,7 @@
 package game.fighters
 
+import game.fighters.action.AOEAction
+import game.fighters.action.FighterAction
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
@@ -29,6 +31,12 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     }
 
     fun level() : Int = stats.level()
+
+    fun fighterActions() : MutableList<FighterAction> = stats.fighterActions()
+
+    fun aoeActions() : MutableList<AOEAction> = stats.aoeActions()
+
+    fun nextLevelRequirements() : Int = stats.nextLevelRequirement()
 
     abstract fun takeDamage(damage : Float)
 

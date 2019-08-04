@@ -1,12 +1,19 @@
 package game.stats
 
+import game.fighters.action.AOEAction
+import game.fighters.action.AOEActionSet
+import game.fighters.action.FighterAction
+import game.fighters.action.FighterActionSet
+
 class FighterStats(private var level : Int,
                    private var maximalHealth : Float,
                    private var currentHealth : Float,
                    private var movingDistance : Float,
                    private var nextLevelRequirementFunction : (Int) -> Int,
                    private var maximalHealthLevelFunction : (Int) -> Float,
-                   private var movingDistanceLevelFunction : (Int) -> Float) {
+                   private var movingDistanceLevelFunction : (Int) -> Float,
+                   private var fighterActions : FighterActionSet,
+                   private var aoeActions : AOEActionSet) {
 
     fun level() : Int = level
 
@@ -36,6 +43,10 @@ class FighterStats(private var level : Int,
         upgradeHealth()
         upgradeMovingDistance()
     }
+
+    fun fighterActions() : MutableList<FighterAction> = fighterActions.actions()
+
+    fun aoeActions() : MutableList<AOEAction> = aoeActions.actions()
 
     private fun upgradeHealth(){
         val healthVariation : Float = maximalHealthLevelFunction(level())

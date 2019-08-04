@@ -1,10 +1,11 @@
 package game.fighters.action
 
 import game.fighters.AbstractFighter
+import game.world.cells.AbstractCell
 import llayout.utilities.GraphicAction
 import llayout.utilities.StringDisplay
 
-interface FighterAction {
+interface AOEAction {
 
     fun name() : CharSequence
 
@@ -12,8 +13,10 @@ interface FighterAction {
 
     fun image() : GraphicAction
 
-    fun act(actor : AbstractFighter, target : AbstractFighter)
+    fun range() : Collection<AbstractCell>
 
-    fun isAvailable(actor : AbstractFighter, target : AbstractFighter) : Boolean
+    fun act(actor : AbstractFighter)
+
+    fun isAvailable(actor : AbstractFighter)
 
 }

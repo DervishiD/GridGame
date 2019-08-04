@@ -2,6 +2,8 @@ package display.scenes
 
 import display.frame
 import game.fighters.AbstractFighter
+import game.fighters.action.AOEAction
+import game.fighters.action.FighterAction
 import game.gameobjects.GameObject
 import game.player.Player
 import game.player.QuantifiedObject
@@ -174,42 +176,139 @@ object GameMenuScene : LScene() {
 
         private const val INFO_TAG_GAP : Int = 10
 
-        private const val OBJECT_NAME_DESCRIPTION_GAP : Int = 30
+        private const val GAP_BETWEEN_INFO : Int = 25
+
+        private const val INSIDE_INFO_GAP : Int = 10
+
+        private const val INFO_TAG_LEFT_GAP : Int = 25
+
+        private const val ACTION_PANE_HEIGHT : Int = 400
 
         private val displayers : MutableCollection<Displayer> = mutableSetOf()
+
+        private val scrollPane : VerticalScrollPane = VerticalScrollPane(1.0, 1.0)
+
+        private const val INTERNAL_PANE_HEIGHT : Int = 920
+        private val pane : DisplayerContainer = DisplayerContainer(1.0, INTERNAL_PANE_HEIGHT)
+
+        init{
+            add(scrollPane.setX(0.5).setY(0.5))
+            scrollPane.add(pane)
+        }
 
         fun showInformation(obj : GameObject){
             clearPane()
 
             val image = Canvas(IMAGE_SIZE, IMAGE_SIZE).addGraphicAction(obj.image())
             displayers.add(image)
-            add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
+            pane.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
 
             val nameTag = Label("Name")
-            val nameLabel = Label(StringDisplay(obj.name(), DEFAULT_MEDIUM_FONT))
+            val nameLabel = Label(obj.name())
             displayers.add(nameTag)
             displayers.add(nameLabel)
-            add(nameTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToTop(image))
-            add(nameLabel.alignLeftToLeft(nameTag).alignTopToBottom(nameTag, INFO_TAG_GAP))
+            pane.add(nameTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToTop(image))
+            pane.add(nameLabel.alignLeftToLeft(nameTag, INFO_TAG_LEFT_GAP).alignTopToBottom(nameTag, INFO_TAG_GAP))
 
             val descriptionTag = Label("Description")
-            val description = TextScrollPane(width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP, 0.5)
+            val description = TextScrollPane(width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP - INFO_TAG_LEFT_GAP, 0.5)
             addWidthListener { description.setWidth(width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP) }
             description.write(obj.description())
             displayers.add(descriptionTag)
             displayers.add(description)
-            add(descriptionTag.alignLeftToLeft(nameTag).alignTopToBottom(nameLabel, OBJECT_NAME_DESCRIPTION_GAP))
-            add(description.alignLeftToLeft(nameTag).alignTopToBottom(descriptionTag, INFO_TAG_GAP))
+            pane.add(descriptionTag.alignLeftToLeft(nameTag).alignTopToBottom(nameLabel, GAP_BETWEEN_INFO))
+            pane.add(description.alignLeftToLeft(descriptionTag, INFO_TAG_LEFT_GAP).alignTopToBottom(descriptionTag, INFO_TAG_GAP))
         }
 
         fun showInformation(fighter : AbstractFighter){
             clearPane()
-            TODO("Not implemented.")
+
+            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE)
+            image.addGraphicAction(fighter.image())
+            displayers.add(image)
+            pane.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
+
+            val nameTag = Label("Name")
+            val nameLabel = Label(fighter.name())
+            displayers.add(nameTag)
+            displayers.add(nameLabel)
+            pane.add(nameTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToTop(image))
+            pane.add(nameLabel.alignLeftToLeft(nameTag, INFO_TAG_LEFT_GAP).alignTopToBottom(nameTag, INFO_TAG_GAP))
+
+            val typeTag = Label("Type")
+            val typeLabel = Label(fighter.type())
+            displayers.add(typeTag)
+            displayers.add(typeLabel)
+            pane.add(typeTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(nameLabel, GAP_BETWEEN_INFO))
+            pane.add(typeLabel.alignTopToBottom(typeTag, INFO_TAG_GAP).alignLeftToLeft(typeTag, INFO_TAG_LEFT_GAP))
+
+            val levelTag = Label("Level")
+            val levelLabel = Label(fighter.level())
+            val levelUpButton = TextButton("Level up") { levelUpPopUp(fighter) }
+            displayers.add(levelTag)
+            displayers.add(levelLabel)
+            displayers.add(levelUpButton)
+            pane.add(levelTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(typeLabel, GAP_BETWEEN_INFO))
+            pane.add(levelLabel.alignLeftToLeft(levelTag, INFO_TAG_LEFT_GAP).alignTopToBottom(levelTag, INFO_TAG_GAP))
+            pane.add(levelUpButton.alignLeftToLeft(levelLabel).alignTopToBottom(levelLabel, INSIDE_INFO_GAP))
+
+            val HPTag = Label("Health points")
+            val HPLabel = Label("${fighter.maxHealth()}")
+            displayers.add(HPTag)
+            displayers.add(HPLabel)
+            pane.add(HPTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(levelUpButton, GAP_BETWEEN_INFO))
+            pane.add(HPLabel.alignLeftToLeft(HPTag, INFO_TAG_LEFT_GAP).alignTopToBottom(HPTag, INFO_TAG_GAP))
+
+            val distanceTag = Label("Moving distance")
+            val distanceLabel = Label(fighter.movingDistance())
+            displayers.add(distanceTag)
+            displayers.add(distanceLabel)
+            pane.add(distanceTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(HPLabel, GAP_BETWEEN_INFO))
+            pane.add(distanceLabel.alignLeftToLeft(distanceTag, INFO_TAG_LEFT_GAP).alignTopToBottom(distanceTag, INFO_TAG_GAP))
+
+            val actionTag = Label("Actions")
+            val actionPane =
+                VerticalScrollPane(
+                    width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP - INFO_TAG_LEFT_GAP - VerticalScrollPane.SLIDER_WIDTH,
+                    ACTION_PANE_HEIGHT
+                )
+            displayers.add(actionTag)
+            displayers.add(actionPane)
+            pane.add(actionTag.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(distanceLabel, GAP_BETWEEN_INFO))
+            pane.add(actionPane.alignLeftToLeft(actionTag, INFO_TAG_LEFT_GAP).alignTopToBottom(actionTag, INFO_TAG_GAP))
+
+            for(action : FighterAction in fighter.fighterActions()){
+                actionPane.add(actionDisplayerFor(action))
+            }
+
+            for(action : AOEAction in fighter.aoeActions()){
+                actionPane.add(actionDisplayerFor(action))
+            }
+
+            val skillTreeButton = TextButton("Open Skill Tree") { skillTreePaneFor(fighter) }
+            displayers.add(skillTreeButton)
+            pane.add(skillTreeButton.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(actionPane, GAP_BETWEEN_INFO))
         }
 
         private fun clearPane(){
-            remove(displayers)
+            pane.remove(displayers)
             displayers.clear()
+        }
+
+        private fun actionDisplayerFor(action : FighterAction) : ContainerCanvas{
+            TODO("Not implemented.")
+        }
+
+        private fun actionDisplayerFor(action : AOEAction) : ContainerCanvas{
+            TODO("Not implemented.")
+        }
+
+        private fun levelUpPopUp(fighter : AbstractFighter){
+            TODO("Not implemented.")
+        }
+
+        private fun skillTreePaneFor(fighter : AbstractFighter){
+            TODO("Not implemented.")
         }
 
     }
