@@ -184,6 +184,10 @@ object GameMenuScene : LScene() {
 
         private const val ACTION_PANE_HEIGHT : Int = 400
 
+        private const val ACTION_DISPLAYER_HEIGHT : Int = 200
+
+        private const val ACTION_DESCRIPTION_HEIGHT : Int = 80
+
         private val displayers : MutableCollection<Displayer> = mutableSetOf()
 
         private val scrollPane : VerticalScrollPane = VerticalScrollPane(1.0, 1.0)
@@ -296,11 +300,35 @@ object GameMenuScene : LScene() {
         }
 
         private fun actionDisplayerFor(action : FighterAction) : ContainerCanvas{
-            TODO("Not implemented.")
+            val result = ContainerCanvas(1.0, ACTION_DISPLAYER_HEIGHT)
+
+            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE)
+            result.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
+
+            val name = Label(action.name())
+            result.add(name.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToTop(image))
+
+            val description = TextScrollPane(1, ACTION_DESCRIPTION_HEIGHT)
+            result.addWidthListener { description.setWidth(result.width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP) }
+            result.add(description.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(name, GAP_BETWEEN_INFO))
+
+            return result
         }
 
         private fun actionDisplayerFor(action : AOEAction) : ContainerCanvas{
-            TODO("Not implemented.")
+            val result = ContainerCanvas(1.0, ACTION_DISPLAYER_HEIGHT)
+
+            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE)
+            result.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
+
+            val name = Label(action.name())
+            result.add(name.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToTop(image))
+
+            val description = TextScrollPane(1, ACTION_DESCRIPTION_HEIGHT)
+            result.addWidthListener { description.setWidth(result.width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP) }
+            result.add(description.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(name, GAP_BETWEEN_INFO))
+
+            return result
         }
 
         private fun levelUpPopUp(fighter : AbstractFighter){
