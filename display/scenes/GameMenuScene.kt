@@ -2,6 +2,7 @@ package display.scenes
 
 import display.frame
 import display.specialdisplayers.SkillTreeDisplayer
+import display.specialdisplayers.SkillTreeNodeDisplayer
 import game.fighters.AbstractFighter
 import game.fighters.action.AOEAction
 import game.fighters.action.FighterAction
@@ -190,6 +191,8 @@ object GameMenuScene : LScene() {
         private const val ACTION_DESCRIPTION_HEIGHT : Int = 80
 
         private val POP_UP_PANE_COLOUR : Color = Color(0.8f, 0.8f, 0.8f, 0.2f)
+
+        private const val SKILL_TREE_WIDTH : Double = 0.7
 
         private val displayers : MutableCollection<Displayer> = mutableSetOf()
 
@@ -383,11 +386,14 @@ object GameMenuScene : LScene() {
             backgroundPane.fillBackground(POP_UP_PANE_COLOUR)
             backgroundPane.setOnMouseReleasedAction { GameMenuScene.remove(backgroundPane) }
 
-            val treePane = ContainerCanvas(0.8, 0.8)
+            val treePane = ContainerCanvas(1.0, 1.0)
             backgroundPane.add(treePane.setX(0.5).setY(0.5))
-            treePane.add(SkillTreeDisplayer.alignTopTo(0).alignLeftTo(0))
+            treePane.add(SkillTreeDisplayer.setWidth(SKILL_TREE_WIDTH).setHeight(1.0).alignTopTo(0).alignRightTo(1.0))
 
             SkillTreeDisplayer.setTree(fighter, player())
+
+            SkillTreeNodeDisplayer.setTree(fighter.skillTree())
+            treePane.add(SkillTreeNodeDisplayer.setWidth(1 - SKILL_TREE_WIDTH).setHeight(1.0).alignTopTo(0).alignLeftTo(0))
 
             GameMenuScene.add(backgroundPane.setX(0.5).setY(0.5))
         }

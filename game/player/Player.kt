@@ -30,6 +30,8 @@ class Player constructor(private val name : String, private val stats : PlayerSt
 
     fun removePoints(points : Int) = stats.removePoints(points)
 
+    fun stats() : PlayerStats = stats
+
     fun addToTeam(fighter : AbstractFighter){
         if(teamIsFull()) throw IllegalStateException("The team is already full.")
         team.add(fighter)

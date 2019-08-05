@@ -41,6 +41,8 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
 
     fun nextLevelRequirements() : Int = stats.nextLevelRequirement()
 
+    fun stats() : FighterStats = stats
+
     abstract fun takeDamage(damage : Float)
 
     abstract fun isImmuneToDamage() : Boolean

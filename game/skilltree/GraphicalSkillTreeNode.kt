@@ -30,6 +30,8 @@ class GraphicalSkillTreeNode(private val x : Int,
 
     fun description() : CharSequence = node.description()
 
+    fun validate(playerStats: PlayerStats, fighterStats: FighterStats) = node.validate(playerStats, fighterStats)
+
     fun x() : Int = x
 
     fun y() : Int = y
@@ -39,8 +41,6 @@ class GraphicalSkillTreeNode(private val x : Int,
     }
 
     fun children() : MutableCollection<GraphicalSkillTreeNode> = children
-
-    fun takeEffect(playerStats : PlayerStats, fighterStats: FighterStats) = node.takeEffect(playerStats, fighterStats)
 
     internal fun find(name : CharSequence) : GraphicalSkillTreeNode?{
         if(name() == name) return this

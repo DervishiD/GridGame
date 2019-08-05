@@ -4,8 +4,6 @@ import game.fighters.AbstractFighter
 import game.player.Player
 import game.skilltree.GraphicalSkillTree
 import game.skilltree.GraphicalSkillTreeNode
-import game.stats.FighterStats
-import game.stats.PlayerStats
 import llayout.displayers.ContainerCanvas
 import llayout.displayers.ImageButton
 import llayout.utilities.GraphicAction
@@ -26,12 +24,7 @@ object SkillTreeDisplayer : ContainerCanvas() {
         }
 
         private fun displayNodeInformation(){
-            TODO("Not implemented.")
-        }
-
-        fun takeEffect(playerStats : PlayerStats, fighterStats: FighterStats){
-            node.takeEffect(playerStats, fighterStats)
-            reloadNodeButtons()
+            SkillTreeNodeDisplayer.display(node, player, fighter)
         }
 
         internal fun updatePosition(){
@@ -60,13 +53,16 @@ object SkillTreeDisplayer : ContainerCanvas() {
         addGraphicAction({ g : Graphics, _ : Int, _ : Int -> drawTree(g) })
     }
 
-    fun setTree(fighter : AbstractFighter, player: Player){
-        this.tree = fighter.skillTree()
+    fun setTree(fighter : AbstractFighter, player: Player) = setTree(fighter.skillTree(), fighter, player)
+
+    fun setTree(tree : GraphicalSkillTree, fighter : AbstractFighter, player: Player){
+        this.tree = tree
         this.fighter = fighter
         this.player = player
         reloadNodeButtons()
-        resize()
     }
+
+    fun reload() = setTree(fighter, player)
 
     private fun updateMousePosition(x : Int, y : Int){
         lastMouseX = x
@@ -123,17 +119,6 @@ object SkillTreeDisplayer : ContainerCanvas() {
 
     private fun drawTree(g : Graphics){
         //Nothing?
-    }
-
-    private fun resize(){
-        var maxX = 0
-        var maxY = 0
-        for(b : NodeButton in buttons){
-            if(b.rightSideX() > maxX) maxX = b.rightSideX()
-            if(b.downSideY() > maxY) maxY = b.downSideY()
-        }
-        setWidth(maxX)
-        setHeight(maxY)
     }
 
 }
