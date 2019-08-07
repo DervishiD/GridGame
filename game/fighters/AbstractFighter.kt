@@ -11,6 +11,8 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
 
     protected abstract var stats : FighterStats
 
+    protected abstract var graphicalSkillTree : GraphicalSkillTree
+
     fun isDead() : Boolean = stats.isDead()
 
     fun isAlive() : Boolean = stats.isAlive()
@@ -43,6 +45,8 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
 
     fun stats() : FighterStats = stats
 
+    fun skillTree() : GraphicalSkillTree = graphicalSkillTree
+
     abstract fun takeDamage(damage : Float)
 
     abstract fun isImmuneToDamage() : Boolean
@@ -56,7 +60,5 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     abstract fun currentCell() : AbstractCell
 
     abstract fun canStepOn(cell : AbstractCell) : Boolean
-
-    abstract fun skillTree() : GraphicalSkillTree
 
 }

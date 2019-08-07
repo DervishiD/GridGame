@@ -13,7 +13,7 @@ class GraphicalSkillTree(private val rootNodes : MutableCollection<GraphicalSkil
     companion object{
 
         /*
-         * name parentName requirementFunction effect description x y image obtainedImage
+         * name parentName requirementFunction effect description x y image obtainedImage obtained
          */
 
         private const val FILE_EXTENSION : String = ".txt"

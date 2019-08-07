@@ -1,6 +1,7 @@
 package game.fighters
 
 import game.fighters.action.AOEActionSet
+import game.fighters.action.FighterAction
 import game.fighters.action.FighterActionSet
 import game.skilltree.GraphicalSkillTree
 import game.stats.FighterStats
@@ -8,6 +9,7 @@ import game.world.cells.AbstractCell
 import game.world.cells.CellType
 import game.world.defaults.EmptyCell
 import llayout.utilities.GraphicAction
+import llayout.utilities.StringDisplay
 import java.awt.Graphics
 
 class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
@@ -18,7 +20,16 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
         private val NEXT_LEVEL_REQUIREMENT_FUNCTION : (Int) -> Int = { i -> i }
         private val MAX_HEALTH_LEVEL_FUNCTION : (Int) -> Float = { _ -> 1f }
         private val MOVING_DISTANCE_LEVEL_FUNCTION : (Int) -> Float = { _ -> 0.1f }
-        private val FIGHTER_ACTIONS : FighterActionSet = FighterActionSet()
+        private val FIGHTER_ACTIONS : FighterActionSet = FighterActionSet(object : FighterAction{
+            override fun act(actor: AbstractFighter, target: AbstractFighter) {}
+            override fun image(): GraphicAction = { g : Graphics, w : Int, h : Int ->
+                g.color = java.awt.Color(0, 120, 0)
+                g.fillPolygon(intArrayOf(0, w/2, w), intArrayOf(h, 0, h), 3)
+            }
+            override fun description(): Collection<StringDisplay> = setOf(StringDisplay("Test action that does nothing"))
+            override fun isAvailable(actor: AbstractFighter, target: AbstractFighter): Boolean = true
+            override fun name(): CharSequence = "Test action"
+        })
         private val AOE_ACTIONS : AOEActionSet = AOEActionSet()
     }
 
@@ -26,6 +37,8 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
         NEXT_LEVEL_REQUIREMENT_FUNCTION, MAX_HEALTH_LEVEL_FUNCTION, MOVING_DISTANCE_LEVEL_FUNCTION, FIGHTER_ACTIONS, AOE_ACTIONS)
 
     private var currentCell : AbstractCell = EmptyCell
+
+    override var graphicalSkillTree: GraphicalSkillTree = GraphicalSkillTree.loadFromTreeName("testTree")
 
     override fun takeDamage(damage: Float) {
         stats.damage(damage)
@@ -61,7 +74,5 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
     }
 
     override fun type(): CharSequence = "testFighter"
-
-    override fun skillTree(): GraphicalSkillTree = GraphicalSkillTree.loadFromTreeName("testTree")
 
 }

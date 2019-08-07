@@ -1,5 +1,5 @@
-A|NO_PARENT_ROOT_NODE|A|A|A|200|200|A|A|true
-B|NO_PARENT_ROOT_NODE|B|B|B|500|200|B|B|false
-C|A|C|C|C|200|300|C|C|false
-D|B|D|D|D|400|200|D|D|false
-E|D|E|E|E|400|300|E|E|false
+A|NO_PARENT_ROOT_NODE|A|A|A description|200|200|A|A|true
+B|NO_PARENT_ROOT_NODE|B|B|B description|500|200|B|B|false
+C|A|C|C|C description|200|300|C|C|false
+D|B|D|D|D description|400|200|D|D|false
+E|D|E|E|E description|400|300|E|E|false

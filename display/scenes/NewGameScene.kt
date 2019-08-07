@@ -4,7 +4,9 @@ import display.frame
 import game.fighters.AbstractFighter
 import game.fighters.TestFighter
 import game.player.Player
+import game.world.Position
 import game.world.Zone
+import game.world.ZoneInfo
 import llayout.DEFAULT_LARGE_FONT
 import llayout.DEFAULT_MEDIUM_FONT
 import llayout.displayers.Label
@@ -164,7 +166,15 @@ object NewGameScene : LScene() {
     }
 
     private fun startGame(){
-        GameMenuScene.show(player(), zone())
+        val zone = zone()
+        GameMenuScene.show(ZoneInfo(
+            true,
+            player(),
+            zone,
+            false,
+            setOf(),
+            mapOf(),
+            Position(zone.numberOfLines() / 2, zone.numberOfColumns() / 2)))
     }
 
 }

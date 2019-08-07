@@ -78,6 +78,8 @@ class Zone{
 
     fun imageAt(line : Int, column : Int) : GraphicAction = cells.imageAt(line, column)
 
+    fun cellAt(line : Int, column : Int) : AbstractCell = cells.cellAt(line, column)
+
     operator fun contains(position : Position) : Boolean{
         return position.isPositive() && position.line() < numberOfLines() && position.column() < numberOfColumns()
     }

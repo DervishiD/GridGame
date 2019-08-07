@@ -30,6 +30,8 @@ abstract class AbstractCell(private val position : Position) {
 
     fun containsObject() : Boolean = component != NoComponent
 
+    fun position() : Position = position
+
     abstract fun actOnFighterStep(fighter : AbstractFighter)
 
     abstract fun actOnPlayerStep(player : Player)

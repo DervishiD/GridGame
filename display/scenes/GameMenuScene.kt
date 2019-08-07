@@ -9,7 +9,7 @@ import game.fighters.action.FighterAction
 import game.gameobjects.GameObject
 import game.player.Player
 import game.player.QuantifiedObject
-import game.world.Zone
+import game.world.ZoneInfo
 import llayout.DEFAULT_MEDIUM_FONT
 import llayout.displayers.*
 import llayout.frame.LScene
@@ -95,7 +95,7 @@ object GameMenuScene : LScene() {
 
             private fun inTeam() : Boolean = inTeam
 
-            private fun toggleTeam() = if(inTeam()) removeFighterFromTeam() else tryAddToTeam()
+            private fun toggleTeam() = if(inTeam()) tryRemoveFighterFromTeam() else tryAddToTeam()
 
             private fun tryAddToTeam(){
                 if(teamIsNotFull()) addFighterToTeam()
@@ -104,6 +104,10 @@ object GameMenuScene : LScene() {
             private fun addFighterToTeam(){
                 inTeam = true
                 addToTeam(fighter)
+            }
+
+            private fun tryRemoveFighterFromTeam(){
+                if(player().teamSize() > 1) removeFighterFromTeam()
             }
 
             private fun removeFighterFromTeam(){
@@ -308,7 +312,7 @@ object GameMenuScene : LScene() {
         private fun actionDisplayerFor(action : FighterAction) : ContainerCanvas{
             val result = ContainerCanvas(1.0, ACTION_DISPLAYER_HEIGHT)
 
-            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE)
+            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE).addGraphicAction(action.image())
             result.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
 
             val name = Label(action.name())
@@ -316,6 +320,7 @@ object GameMenuScene : LScene() {
 
             val description = TextScrollPane(1, ACTION_DESCRIPTION_HEIGHT)
             result.addWidthListener { description.setWidth(result.width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP) }
+            description.write(action.description())
             result.add(description.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(name, GAP_BETWEEN_INFO))
 
             return result
@@ -324,7 +329,7 @@ object GameMenuScene : LScene() {
         private fun actionDisplayerFor(action : AOEAction) : ContainerCanvas{
             val result = ContainerCanvas(1.0, ACTION_DISPLAYER_HEIGHT)
 
-            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE)
+            val image = Canvas(IMAGE_SIZE, IMAGE_SIZE).addGraphicAction(action.image())
             result.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
 
             val name = Label(action.name())
@@ -332,6 +337,7 @@ object GameMenuScene : LScene() {
 
             val description = TextScrollPane(1, ACTION_DESCRIPTION_HEIGHT)
             result.addWidthListener { description.setWidth(result.width() - IMAGE_LEFT_GAP - IMAGE_SIZE - IMAGE_INFO_GAP) }
+            description.write(action.description())
             result.add(description.alignLeftToRight(image, IMAGE_INFO_GAP).alignTopToBottom(name, GAP_BETWEEN_INFO))
 
             return result
@@ -393,6 +399,12 @@ object GameMenuScene : LScene() {
             SkillTreeDisplayer.setTree(fighter, player())
 
             SkillTreeNodeDisplayer.setTree(fighter.skillTree())
+            val back = TextButton("Back") {}
+            back.setOnMouseReleasedAction {
+                GameMenuScene.remove(backgroundPane)
+                SkillTreeNodeDisplayer.remove(back)
+            }
+            SkillTreeNodeDisplayer.add(back.alignTopTo(0).alignLeftTo(0))
             treePane.add(SkillTreeNodeDisplayer.setWidth(1 - SKILL_TREE_WIDTH).setHeight(1.0).alignTopTo(0).alignLeftTo(0))
 
             GameMenuScene.add(backgroundPane.setX(0.5).setY(0.5))
@@ -477,31 +489,26 @@ object GameMenuScene : LScene() {
         setOnSaveAction { unloadInformation() }
     }
 
-    private lateinit var player : Player
+    private lateinit var zoneInfo : ZoneInfo
 
-    private lateinit var zone : Zone
-
-    fun show(player : Player, zone : Zone){
-        this.player = player
-        this.zone = zone
+    fun show(zoneInfo : ZoneInfo){
+        this.zoneInfo = zoneInfo
         loadFighters()
         loadObjects()
         frame.setScene(this)
     }
 
-    private fun player() : Player = player
+    private fun player() : Player = zoneInfo.player()
 
-    private fun zone() : Zone = zone
+    private fun isInTeam(fighter : AbstractFighter) : Boolean = player().teamContains(fighter)
 
-    private fun isInTeam(fighter : AbstractFighter) : Boolean = player.teamContains(fighter)
+    private fun currentTeamSize() : Int = player().teamSize()
 
-    private fun currentTeamSize() : Int = player.teamSize()
+    private fun fullTeamSize() : Int = player().fullTeamSize()
 
-    private fun fullTeamSize() : Int = player.fullTeamSize()
+    private fun removeFromTeam(fighter : AbstractFighter) = player().removeFromTeam(fighter)
 
-    private fun removeFromTeam(fighter : AbstractFighter) = player.removeFromTeam(fighter)
-
-    private fun addToTeam(fighter : AbstractFighter) = player.addToTeam(fighter)
+    private fun addToTeam(fighter : AbstractFighter) = player().addToTeam(fighter)
 
     private fun teamIsNotFull() : Boolean = !teamIsFull()
 
@@ -560,7 +567,8 @@ object GameMenuScene : LScene() {
     }
 
     private fun resume(){
-        TODO("Not implemented.")
+        frame.setScene(GameScene)
+        GameScene.load(zoneInfo)
     }
 
     private fun save(){
@@ -579,7 +587,6 @@ object GameMenuScene : LScene() {
     private fun unloadInformation(){
         unloadFighters()
         unloadObjects()
-        TODO("Not implemented.")
     }
 
     private fun unloadFighters(){
