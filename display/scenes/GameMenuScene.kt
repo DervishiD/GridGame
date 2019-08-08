@@ -581,7 +581,7 @@ object GameMenuScene : LScene() {
     }
 
     private fun quit(){
-        TODO("Not implemented.")
+        frame.setScene(FirstScene)
     }
 
     private fun unloadInformation(){

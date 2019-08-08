@@ -11,4 +11,6 @@ abstract class AbstractInteraction<S : AbstractFighter, O : GameObject>(private 
 
     abstract fun act()
 
+    abstract fun type() : InteractionEffectType
+
 }

@@ -32,6 +32,8 @@ class Player constructor(private val name : String, private val stats : PlayerSt
 
     fun stats() : PlayerStats = stats
 
+    fun name() : String = name
+
     fun addToTeam(fighter : AbstractFighter){
         if(teamIsFull()) throw IllegalStateException("The team is already full.")
         team.add(fighter)
@@ -39,6 +41,12 @@ class Player constructor(private val name : String, private val stats : PlayerSt
 
     fun removeFromTeam(fighter : AbstractFighter){
         team.remove(fighter)
+    }
+
+    fun teamCanGrow() : Boolean = fullTeamSize() < TEAM_UPPER_BOUND
+
+    fun addTeamSlot(){
+        currentTeamUpperBound++
     }
 
     private fun teamIsFull() : Boolean = teamSize() >= fullTeamSize()
