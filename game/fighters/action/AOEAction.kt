@@ -1,6 +1,7 @@
 package game.fighters.action
 
 import game.fighters.AbstractFighter
+import game.interactions.InteractionEffectType
 import game.world.cells.AbstractCell
 import llayout.utilities.GraphicAction
 import llayout.utilities.StringDisplay
@@ -18,5 +19,7 @@ interface AOEAction {
     fun act(actor : AbstractFighter)
 
     fun isAvailable(actor : AbstractFighter)
+
+    fun type() : InteractionEffectType
 
 }

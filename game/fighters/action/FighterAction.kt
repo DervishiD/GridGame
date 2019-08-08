@@ -1,6 +1,7 @@
 package game.fighters.action
 
 import game.fighters.AbstractFighter
+import game.interactions.InteractionEffectType
 import llayout.utilities.GraphicAction
 import llayout.utilities.StringDisplay
 
@@ -15,5 +16,7 @@ interface FighterAction {
     fun act(actor : AbstractFighter, target : AbstractFighter)
 
     fun isAvailable(actor : AbstractFighter, target : AbstractFighter) : Boolean
+
+    fun type() : InteractionEffectType
 
 }

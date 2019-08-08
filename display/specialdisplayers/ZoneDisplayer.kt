@@ -1,5 +1,6 @@
 package display.specialdisplayers
 
+import game.eventhandler.KeyEventHandler
 import game.world.Position
 import game.world.Zone
 import game.world.cells.AbstractCell
@@ -8,6 +9,8 @@ import llayout.displayers.DisplayerContainer
 import llayout.displayers.RegularGrid
 import java.awt.Color
 import java.awt.Graphics
+import java.awt.Robot
+import java.awt.event.InputEvent
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -37,13 +40,14 @@ object ZoneDisplayer : DisplayerContainer() {
                     g.fillRect(w - FRAME_SIZE, 0, FRAME_SIZE, h)
                 }
             })
+            setOnKeyPressedAction { e -> KeyEventHandler.handlePress(e.keyCode) }
         }
 
         fun cell() : AbstractCell = cell
 
     }
 
-    private const val IMAGE_SIZE : Int = 80
+    private const val IMAGE_SIZE : Int = 100
 
     private lateinit var position : Position
 
@@ -61,6 +65,7 @@ object ZoneDisplayer : DisplayerContainer() {
     init{
         addWidthListener { resetGridPosition() }
         addHeightListener { resetGridPosition() }
+        setOnKeyPressedAction { e -> KeyEventHandler.handlePress(e.keyCode) }
     }
 
     fun display(zone : Zone, startingPosition : Position){
@@ -69,6 +74,7 @@ object ZoneDisplayer : DisplayerContainer() {
         if(position !in zone) throw IllegalArgumentException("The starting position is not contained in the zone.")
         running = true
         reloadTiles()
+        forceGainFocus()
     }
 
     fun left(){
@@ -125,8 +131,10 @@ object ZoneDisplayer : DisplayerContainer() {
     }
 
     private fun resetGridPosition(){
-        resetGridX()
-        resetGridY()
+        if(running){
+            resetGridX()
+            resetGridY()
+        }
     }
 
     private fun resetGridX(){
@@ -166,6 +174,13 @@ object ZoneDisplayer : DisplayerContainer() {
     }
 
     private fun position() : Position = position
+
+    private fun forceGainFocus(){
+        val robot = Robot()
+        robot.mouseMove(width() / 2, height() / 2)
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK)
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
 
     override fun updateRelativeValues(frameWidth: Int, frameHeight: Int) {
         super.updateRelativeValues(frameWidth, frameHeight)

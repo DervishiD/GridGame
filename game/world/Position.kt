@@ -40,4 +40,12 @@ class Position(private val line : Int, private val column : Int) {
         return result
     }
 
+    override operator fun equals(other : Any?) : Boolean{
+        return if(other is Position){
+            other.line() == line() && other.column() == column()
+        }else super.equals(other)
+    }
+
+    override fun hashCode(): Int = Integer.hashCode(line()) + Integer.hashCode(column())
+
 }

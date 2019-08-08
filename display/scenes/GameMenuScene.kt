@@ -462,13 +462,13 @@ object GameMenuScene : LScene() {
     }
 
     private val RESUME_BUTTON : TextButton = TextButton("Resume") { resume() }
-    private const val RESUME_BUTTON_X : Double = 0.2
+    private const val RESUME_BUTTON_X : Double = 0.8
 
     private val SAVE_BUTTON : TextButton = TextButton("Save") { save() }
     private const val SAVE_BUTTON_X : Double = 0.5
 
     private val SAVE_AND_QUIT_BUTTON : TextButton = TextButton("Save and quit") { saveAndQuit() }
-    private const val SAVE_AND_QUIT_BUTTON_X : Double = 0.8
+    private const val SAVE_AND_QUIT_BUTTON_X : Double = 0.2
 
     private val FIGHTER_SCROLL_PANE : VerticalScrollPane = VerticalScrollPane(SCROLL_PANE_WIDTH, PANE_HEIGHT)
 

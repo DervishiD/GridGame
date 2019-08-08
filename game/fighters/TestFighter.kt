@@ -3,7 +3,9 @@ package game.fighters
 import game.fighters.action.AOEActionSet
 import game.fighters.action.FighterAction
 import game.fighters.action.FighterActionSet
+import game.interactions.InteractionEffectType
 import game.skilltree.GraphicalSkillTree
+import game.stats.FighterModifier
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellType
@@ -29,12 +31,16 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
             override fun description(): Collection<StringDisplay> = setOf(StringDisplay("Test action that does nothing"))
             override fun isAvailable(actor: AbstractFighter, target: AbstractFighter): Boolean = true
             override fun name(): CharSequence = "Test action"
+            override fun type() : InteractionEffectType = InteractionEffectType.TEST_A
         })
         private val AOE_ACTIONS : AOEActionSet = AOEActionSet()
+        private val ACTIVE_MODIFIERS : FighterModifier = FighterModifier()
+        private val PASSIVE_MODIFIERS : FighterModifier = FighterModifier()
     }
 
     override var stats : FighterStats = FighterStats(0, DEFAULT_MAX_HEALTH, DEFAULT_MAX_HEALTH, DEFAULT_MOVING_DISTANCE,
-        NEXT_LEVEL_REQUIREMENT_FUNCTION, MAX_HEALTH_LEVEL_FUNCTION, MOVING_DISTANCE_LEVEL_FUNCTION, FIGHTER_ACTIONS, AOE_ACTIONS)
+        NEXT_LEVEL_REQUIREMENT_FUNCTION, MAX_HEALTH_LEVEL_FUNCTION, MOVING_DISTANCE_LEVEL_FUNCTION, FIGHTER_ACTIONS, AOE_ACTIONS,
+        ACTIVE_MODIFIERS, PASSIVE_MODIFIERS)
 
     private var currentCell : AbstractCell = EmptyCell
 
