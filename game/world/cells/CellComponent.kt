@@ -1,6 +1,6 @@
 package game.world.cells
 
-import llayout6.utilities.GraphicAction
+import llayout.utilities.GraphicAction
 
 interface CellComponent {
 

@@ -26,10 +26,14 @@ object ZoneDisplayer : DisplayerContainer() {
 
             private val SELECTION_FRAME_COLOUR : Color = Color.ORANGE
 
+            private const val COMPONENT_KEY : Int = 2231
+
         }
 
         init{
             addGraphicAction(cell.image())
+            addGraphicAction(cell.component().image(), COMPONENT_KEY)
+            cell.addComponentListener { addGraphicAction(cell.component().image(), COMPONENT_KEY) }
             nPixelFrame(FRAME_SIZE, FRAME_COLOUR)
             addGraphicAction({ g : Graphics, w : Int, h : Int ->
                 if(position() == cell.position()){

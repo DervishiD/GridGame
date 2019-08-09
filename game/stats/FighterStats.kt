@@ -4,7 +4,7 @@ import game.fighters.action.AOEAction
 import game.fighters.action.AOEActionSet
 import game.fighters.action.FighterAction
 import game.fighters.action.FighterActionSet
-import game.interactions.InteractionEffectType
+import game.fighters.action.InteractionEffectType
 
 class FighterStats(private var level : Int,
                    private var maximalHealth : Float,

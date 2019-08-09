@@ -4,7 +4,9 @@ import game.fighters.AbstractFighter
 import game.player.Player
 import game.world.Position
 import game.world.defaults.NoComponent
+import llayout.utilities.Action
 import llayout.utilities.GraphicAction
+import llayout.utilities.LObservable
 
 abstract class AbstractCell(private val position : Position) {
 
@@ -26,11 +28,23 @@ abstract class AbstractCell(private val position : Position) {
 
     }
 
-    abstract val component : CellComponent
+    protected abstract var component : LObservable<CellComponent>
 
-    fun containsObject() : Boolean = component != NoComponent
+    fun containsObject() : Boolean = component() != NoComponent
+
+    fun setCellComponent(component : CellComponent){
+        this.component.value = component
+    }
+
+    fun addComponentListener(action : Action){
+        component.addListener(action)
+    }
+
+    fun empty() = setCellComponent(NoComponent)
 
     fun position() : Position = position
+
+    fun component() : CellComponent = component.value
 
     abstract fun actOnFighterStep(fighter : AbstractFighter)
 

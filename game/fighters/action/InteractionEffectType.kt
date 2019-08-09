@@ -1,4 +1,4 @@
-package game.interactions
+package game.fighters.action
 
 enum class InteractionEffectType(private val effectName : String) {
     TEST_A("Test A"),

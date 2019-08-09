@@ -3,13 +3,14 @@ package display.scenes
 import display.frame
 import display.specialdisplayers.SkillTreeDisplayer
 import display.specialdisplayers.SkillTreeNodeDisplayer
+import game.eventhandler.KeyEventHandler
 import game.fighters.AbstractFighter
 import game.fighters.action.AOEAction
 import game.fighters.action.FighterAction
 import game.gameobjects.GameObject
 import game.player.Player
 import game.player.QuantifiedObject
-import game.world.ZoneInfo
+import game.info.ZoneInfo
 import llayout.DEFAULT_MEDIUM_FONT
 import llayout.displayers.*
 import llayout.frame.LScene
@@ -566,10 +567,7 @@ object GameMenuScene : LScene() {
         for(obj : QuantifiedObject in player().inventory()) OBJECT_SCROLL_PANE.add(ObjectInformationDisplayer(obj))
     }
 
-    private fun resume(){
-        frame.setScene(GameScene)
-        GameScene.load(zoneInfo)
-    }
+    private fun resume() = KeyEventHandler.setReceiver(zoneInfo)
 
     private fun save(){
         TODO("Not implemented.")

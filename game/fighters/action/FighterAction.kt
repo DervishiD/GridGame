@@ -1,7 +1,6 @@
 package game.fighters.action
 
 import game.fighters.AbstractFighter
-import game.interactions.InteractionEffectType
 import llayout.utilities.GraphicAction
 import llayout.utilities.StringDisplay
 

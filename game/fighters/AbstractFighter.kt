@@ -2,7 +2,7 @@ package game.fighters
 
 import game.fighters.action.AOEAction
 import game.fighters.action.FighterAction
-import game.interactions.InteractionEffectType
+import game.fighters.action.InteractionEffectType
 import game.skilltree.GraphicalSkillTree
 import game.stats.FighterStats
 import game.world.cells.AbstractCell

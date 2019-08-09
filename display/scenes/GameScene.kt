@@ -1,7 +1,7 @@
 package display.scenes
 
 import display.specialdisplayers.ZoneDisplayer
-import game.world.ZoneInfo
+import game.info.ZoneInfo
 import llayout.frame.LScene
 
 object GameScene : LScene() {
@@ -11,12 +11,7 @@ object GameScene : LScene() {
     }
 
     fun load(zoneInfo : ZoneInfo){
-        /*
-         * Manage to record key strokes somehow
-         * -- Every object that appears on the pane must have a key pressed/typed action that calls a detector
-         */
         ZoneDisplayer.display(zoneInfo.zone(), zoneInfo.playerPosition())
-        TODO("Not implemented.")
     }
 
 }

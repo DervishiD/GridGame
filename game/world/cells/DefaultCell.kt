@@ -5,6 +5,7 @@ import game.player.Player
 import game.world.Position
 import game.world.defaults.NoComponent
 import llayout.utilities.GraphicAction
+import llayout.utilities.LObservable
 import java.awt.Color
 import java.awt.Graphics
 
@@ -18,7 +19,7 @@ class DefaultCell private constructor(position: Position) : AbstractCell(positio
 
     }
 
-    override val component: CellComponent = NoComponent
+    override var component: LObservable<CellComponent> = LObservable(NoComponent)
 
     override fun actOnFighterStep(fighter: AbstractFighter) {}
 
@@ -32,7 +33,6 @@ class DefaultCell private constructor(position: Position) : AbstractCell(positio
         return { g : Graphics, w : Int, h : Int ->
             g.color = Color.RED
             g.fillRect(0, 0, w, h)
-            component.image()(g, w, h)
         }
     }
 

@@ -3,7 +3,7 @@ package game.fighters
 import game.fighters.action.AOEActionSet
 import game.fighters.action.FighterAction
 import game.fighters.action.FighterActionSet
-import game.interactions.InteractionEffectType
+import game.fighters.action.InteractionEffectType
 import game.skilltree.GraphicalSkillTree
 import game.stats.FighterModifier
 import game.stats.FighterStats

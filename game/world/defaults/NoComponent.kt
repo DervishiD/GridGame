@@ -1,7 +1,7 @@
 package game.world.defaults
 
 import game.world.cells.CellComponent
-import llayout6.utilities.GraphicAction
+import llayout.utilities.GraphicAction
 import java.awt.Graphics
 
 object NoComponent : CellComponent {

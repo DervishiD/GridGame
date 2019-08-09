@@ -80,6 +80,10 @@ class Zone{
 
     fun cellAt(line : Int, column : Int) : AbstractCell = cells.cellAt(line, column)
 
+    fun cellAt(position : Position) : AbstractCell = cells.cellAt(position)
+
+    fun moveCellComponent(from : Position, to : Position) = cells.moveComponent(from, to)
+
     operator fun contains(position : Position) : Boolean{
         return position.isPositive() && position.line() < numberOfLines() && position.column() < numberOfColumns()
     }

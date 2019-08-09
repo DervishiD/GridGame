@@ -1,6 +1,6 @@
 package game.stats
 
-import game.interactions.InteractionEffectType
+import game.fighters.action.InteractionEffectType
 
 class FighterModifier(private val modifierMap : MutableMap<InteractionEffectType, EffectModifier> = mutableMapOf()) {
 

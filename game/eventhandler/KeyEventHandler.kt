@@ -1,8 +1,11 @@
 package game.eventhandler
 
+import display.guimanager.EventReceiver
 import java.awt.event.KeyEvent.*
 
 object KeyEventHandler {
+
+    private lateinit var receiver : EventReceiver
 
     fun handlePress(code : Int){
         when(code){
@@ -15,28 +18,21 @@ object KeyEventHandler {
         }
     }
 
-    private fun handleUp(){
-        TODO("Not implemented.")
+    fun setReceiver(receiver : EventReceiver){
+        this.receiver = receiver
+        receiver.onSet()
     }
 
-    private fun handleDown(){
-        TODO("Not implemented.")
-    }
+    private fun handleUp() = receiver.up()
 
-    private fun handleLeft(){
-        TODO("Not implemented.")
-    }
+    private fun handleDown() = receiver.down()
 
-    private fun handleRight(){
-        TODO("Not implemented.")
-    }
+    private fun handleLeft() = receiver.left()
 
-    private fun handleSelect(){
-        TODO("Not implemented.")
-    }
+    private fun handleRight() = receiver.right()
 
-    private fun handleEscape(){
-        TODO("Not implemented.")
-    }
+    private fun handleSelect() = receiver.select()
+
+    private fun handleEscape() = receiver.escape()
 
 }
