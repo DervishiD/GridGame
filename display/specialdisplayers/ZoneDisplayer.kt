@@ -7,6 +7,7 @@ import game.world.cells.AbstractCell
 import llayout.displayers.Canvas
 import llayout.displayers.DisplayerContainer
 import llayout.displayers.RegularGrid
+import llayout.utilities.plus
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Robot
@@ -33,9 +34,8 @@ object ZoneDisplayer : DisplayerContainer() {
         }
 
         init{
-            addGraphicAction(cell.image())
-            addGraphicAction(cell.component().image(), COMPONENT_KEY)
-            cell.addComponentListener { addGraphicAction(cell.component().image(), COMPONENT_KEY) }
+            addGraphicAction(cell.image() + cell.component().image(), COMPONENT_KEY)
+            cell.addComponentListener { addGraphicAction(cell.image() + cell.component().image(), COMPONENT_KEY) }
             nPixelFrame(FRAME_SIZE, FRAME_COLOUR)
             addGraphicAction({ g : Graphics, w : Int, h : Int ->
                 if(position() == cell.position()){

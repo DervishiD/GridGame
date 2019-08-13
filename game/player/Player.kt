@@ -1,5 +1,6 @@
 package game.player
 
+import display.images.ImageLoader
 import game.fighters.AbstractFighter
 import game.stats.PlayerStats
 import game.world.cells.AbstractCell
@@ -96,10 +97,14 @@ class Player constructor(private val name : String,
 
     private fun teamIsFull() : Boolean = teamSize() >= fullTeamSize()
 
-    override fun image(): GraphicAction {
-        return { g : Graphics, w : Int, h : Int ->
-            g.color = java.awt.Color.BLACK
-            g.fillOval(w/4, h/4, w/2, h/2)
+    private fun direction() : Direction = direction
+
+    override fun image(): GraphicAction{
+        return when(direction()){
+            Companion.Direction.UP -> ImageLoader.loadPlayerFacingUp()
+            Companion.Direction.DOWN -> ImageLoader.loadPlayerFacingDown()
+            Companion.Direction.LEFT -> ImageLoader.loadPlayerFacingLeft()
+            Companion.Direction.RIGHT -> ImageLoader.loadPlayerFacingRight()
         }
     }
 

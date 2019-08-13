@@ -29,4 +29,24 @@ object ImageLoader {
 
     fun loadWaterImage() : GraphicAction = graphicAction(WATER_IMAGE)
 
+    fun loadPlayerFacingUp() : GraphicAction = { g : Graphics, w : Int, h : Int ->
+        g.color = java.awt.Color.BLACK
+        g.fillPolygon(intArrayOf(w/4, w/2, 3*w/4), intArrayOf(2*h/3, h/3, 2*h/3), 3)
+    }
+
+    fun loadPlayerFacingDown() : GraphicAction = { g : Graphics, w : Int, h : Int ->
+        g.color = java.awt.Color.BLACK
+        g.fillPolygon(intArrayOf(w/4, w/2, 3*w/4), intArrayOf(h/3, 2*h/3, h/3), 3)
+    }
+
+    fun loadPlayerFacingLeft() : GraphicAction = { g : Graphics, w : Int, h : Int ->
+        g.color = java.awt.Color.BLACK
+        g.fillPolygon(intArrayOf(w/3, 2*w/3, 2*w/3), intArrayOf(h/2, h/4, 3*h/4), 3)
+    }
+
+    fun loadPlayerFacingRight() : GraphicAction = { g : Graphics, w : Int, h : Int ->
+        g.color = java.awt.Color.BLACK
+        g.fillPolygon(intArrayOf(w/3, w/3, 2*w/3), intArrayOf(h/4, 3*h/4, h/2), 3)
+    }
+
 }

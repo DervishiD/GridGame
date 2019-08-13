@@ -6,7 +6,6 @@ import game.fighters.AbstractFighter
 import game.player.Player
 import game.world.Position
 import game.world.Zone
-import game.world.defaults.NoComponent
 
 data class ZoneInfo(private val isANewZone : Boolean,
                     private val playerInfo : PlayerInfo,
@@ -66,6 +65,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
             movePlayerTo(up)
             GameGUIManager.moveZoneDisplayerUp()
         }
+        zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
     private fun playerDown(){
@@ -75,6 +75,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
             movePlayerTo(down)
             GameGUIManager.moveZoneDisplayerDown()
         }
+        zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
     private fun playerLeft(){
@@ -84,6 +85,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
             movePlayerTo(left)
             GameGUIManager.moveZoneDisplayerLeft()
         }
+        zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
     private fun playerRight(){
@@ -93,6 +95,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
             movePlayerTo(right)
             GameGUIManager.moveZoneDisplayerRight()
         }
+        zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
     override fun select() {
@@ -100,8 +103,8 @@ data class ZoneInfo(private val isANewZone : Boolean,
     }
 
     private fun movePlayerTo(position : Position){
-        playerInfo().setPosition(position)
         zone().moveCellComponent(playerPosition(), position)
+        playerInfo().setPosition(position)
         zone().cellAt(position).actOnPlayerStep(player())
         setHoveredPosition(position)
     }
