@@ -123,8 +123,8 @@ object ZoneDisplayer : DisplayerContainer() {
         remove(grid)
         grid = RegularGrid(zone.numberOfLines(),
                            zone.numberOfColumns(),
-                zone.numberOfLines() * IMAGE_SIZE,
-                zone.numberOfColumns() * IMAGE_SIZE)
+                zone.numberOfColumns() * IMAGE_SIZE,
+                zone.numberOfLines() * IMAGE_SIZE)
         add(grid)
         refillGrid()
         resetGridPosition()
@@ -172,7 +172,7 @@ object ZoneDisplayer : DisplayerContainer() {
     }
 
     private fun resetGridYWhenLarger(){
-        grid.setY((height() * 0.5 + grid.height() * 0.5 - ( position.line() + 0.5 ) * IMAGE_SIZE).toInt())
+        grid.setY((height() * 0.5 - grid.height() * 0.5 - ( position.line() + 0.5 ) * IMAGE_SIZE).toInt())
         if(grid.downSideY() < height()) grid.moveAlongY(height() - grid.downSideY())
         if(grid.upSideY() > 0) grid.moveAlongY(- grid.upSideY())
         firstLineIndex = ceil(- grid.upSideY().toFloat() / IMAGE_SIZE).toInt()
