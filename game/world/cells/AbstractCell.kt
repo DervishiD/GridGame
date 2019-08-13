@@ -21,14 +21,15 @@ abstract class AbstractCell(private val position : Position) {
 
         private fun callCorrectCell(cellName : String, data : List<String>, line : Int, column : Int) : AbstractCell{
             return when(cellName){
-                DefaultCell.CELL_NAME -> DefaultCell.generateFromData(data, line, column)
+                WaterCell.CELL_NAME -> WaterCell.generateFromData(data, line, column)
+                SandCell.CELL_NAME -> SandCell.generateFromData(data, line, column)
                 else -> TODO("Not implemented.")
             }
         }
 
     }
 
-    protected abstract var component : LObservable<CellComponent>
+    private var component : LObservable<CellComponent> = LObservable(NoComponent)
 
     fun containsObject() : Boolean = component() != NoComponent
 

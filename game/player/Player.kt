@@ -4,6 +4,7 @@ import game.fighters.AbstractFighter
 import game.stats.PlayerStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
+import game.world.cells.CellType
 import llayout.utilities.GraphicAction
 import java.awt.Graphics
 
@@ -90,8 +91,7 @@ class Player constructor(private val name : String,
     fun isFacingRight() : Boolean = direction == Companion.Direction.RIGHT
 
     fun canStepOn(cell : AbstractCell) : Boolean{
-        //TODO
-        return true
+        return cell.cellType() != CellType.WATER
     }
 
     private fun teamIsFull() : Boolean = teamSize() >= fullTeamSize()

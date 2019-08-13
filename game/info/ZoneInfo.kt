@@ -6,6 +6,7 @@ import game.fighters.AbstractFighter
 import game.player.Player
 import game.world.Position
 import game.world.Zone
+import game.world.defaults.NoComponent
 
 data class ZoneInfo(private val isANewZone : Boolean,
                     private val playerInfo : PlayerInfo,
@@ -61,7 +62,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
     private fun playerUp(){
         player().faceUp()
         val up : Position = playerInfo().up()
-        if(up in zone()){
+        if(up in zone() && player().canStepOn(zone().cellAt(up))){
             movePlayerTo(up)
             GameGUIManager.moveZoneDisplayerUp()
         }
@@ -70,7 +71,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
     private fun playerDown(){
         player().faceDown()
         val down : Position = playerInfo().down()
-        if(down in zone()){
+        if(down in zone() && player().canStepOn(zone().cellAt(down))){
             movePlayerTo(down)
             GameGUIManager.moveZoneDisplayerDown()
         }
@@ -79,7 +80,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
     private fun playerLeft(){
         player().faceLeft()
         val left : Position = playerInfo().left()
-        if(left in zone()){
+        if(left in zone() && player().canStepOn(zone().cellAt(left))){
             movePlayerTo(left)
             GameGUIManager.moveZoneDisplayerLeft()
         }
@@ -88,7 +89,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
     private fun playerRight(){
         player().faceRight()
         val right : Position = playerInfo().right()
-        if(right in zone()){
+        if(right in zone() && player().canStepOn(zone().cellAt(right))){
             movePlayerTo(right)
             GameGUIManager.moveZoneDisplayerRight()
         }
@@ -99,12 +100,10 @@ data class ZoneInfo(private val isANewZone : Boolean,
     }
 
     private fun movePlayerTo(position : Position){
-        if(player().canStepOn(zone().cellAt(position))){
-            playerInfo().setPosition(position)
-            zone().moveCellComponent(playerPosition(), position)
-            zone().cellAt(position).actOnPlayerStep(player())
-            setHoveredPosition(position)
-        }
+        playerInfo().setPosition(position)
+        zone().moveCellComponent(playerPosition(), position)
+        zone().cellAt(position).actOnPlayerStep(player())
+        setHoveredPosition(position)
     }
 
     private fun setHoveredPosition(position: Position){

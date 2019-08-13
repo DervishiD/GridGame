@@ -68,7 +68,7 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
     override fun currentCell(): AbstractCell = currentCell
 
     override fun canStepOn(cell: AbstractCell): Boolean {
-        return cell.cellType() != CellType.TREE_TEST
+        return cell.cellType() != CellType.WATER
     }
 
     override fun image(): GraphicAction {

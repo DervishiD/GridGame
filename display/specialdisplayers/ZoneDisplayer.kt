@@ -20,11 +20,13 @@ object ZoneDisplayer : DisplayerContainer() {
 
         private companion object{
 
-            private const val FRAME_SIZE : Int = 2
+            private const val FRAME_SIZE : Int = 1
+
+            private const val SELECTION_FRAME_SIZE : Int = 4
 
             private val FRAME_COLOUR : Color = Color.BLACK
 
-            private val SELECTION_FRAME_COLOUR : Color = Color.ORANGE
+            private val SELECTION_FRAME_COLOUR : Color = Color.RED
 
             private const val COMPONENT_KEY : Int = 2231
 
@@ -38,10 +40,10 @@ object ZoneDisplayer : DisplayerContainer() {
             addGraphicAction({ g : Graphics, w : Int, h : Int ->
                 if(position() == cell.position()){
                     g.color = SELECTION_FRAME_COLOUR
-                    g.fillRect(0, 0, w, FRAME_SIZE)
-                    g.fillRect(0, 0, FRAME_SIZE, h)
-                    g.fillRect(0, h - FRAME_SIZE, w, FRAME_SIZE)
-                    g.fillRect(w - FRAME_SIZE, 0, FRAME_SIZE, h)
+                    g.fillRect(0, 0, w, SELECTION_FRAME_SIZE)
+                    g.fillRect(0, 0, SELECTION_FRAME_SIZE, h)
+                    g.fillRect(0, h - SELECTION_FRAME_SIZE, w, SELECTION_FRAME_SIZE)
+                    g.fillRect(w - SELECTION_FRAME_SIZE, 0, SELECTION_FRAME_SIZE, h)
                 }
             })
             setOnKeyPressedAction { e -> KeyEventHandler.handlePress(e.keyCode) }
