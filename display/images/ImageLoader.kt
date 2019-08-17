@@ -57,8 +57,7 @@ object ImageLoader {
             player.isFacingUp() -> playerFacingUp()
             player.isFacingDown() -> playerFacingDown()
             player.isFacingLeft() -> playerFacingLeft()
-            player.isFacingRight() -> playerFacingRight()
-            else -> throw IllegalStateException("The player is not facing anywhere.")
+            else -> playerFacingRight()
         }
     }
 

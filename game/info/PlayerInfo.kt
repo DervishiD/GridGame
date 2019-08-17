@@ -17,6 +17,13 @@ class PlayerInfo(private val player : Player, private var position: Position) {
 
     fun right() : Position = position.right()
 
+    fun front() : Position = when{
+        player.isFacingUp() -> up()
+        player.isFacingDown() -> down()
+        player.isFacingLeft() -> left()
+        else -> right()
+    }
+
     fun setPosition(position: Position){
         this.position = position
     }

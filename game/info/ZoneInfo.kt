@@ -12,7 +12,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
                     private val zone : Zone,
                     private val isFighting : Boolean,
                     private val playerFighterPositions : Iterable<Position>,
-                    private val ennemies : Map<Position, AbstractFighter>,
+                    private val enemies : Map<Position, AbstractFighter>,
                     private var hoveredPosition : Position = playerInfo.position()
 ) : EventReceiver {
 
@@ -26,7 +26,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
 
     fun playerFighterPositions() : Iterable<Position> = playerFighterPositions
 
-    fun ennemies() : Map<Position, AbstractFighter> = ennemies
+    fun enemies() : Map<Position, AbstractFighter> = enemies
 
     fun playerPosition() : Position = playerInfo.position()
 
@@ -98,8 +98,15 @@ data class ZoneInfo(private val isANewZone : Boolean,
         zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
-    override fun select() {
+    override fun select() = if(isFighting()) selectInFight() else playerSelect()
+
+    private fun selectInFight(){
         TODO("Not implemented.")
+    }
+
+    private fun playerSelect(){
+        val frontPosition : Position = playerInfo().front()
+        if(frontPosition in zone()) zone().cellAt(frontPosition).component().reactToPlayerInteraction()
     }
 
     private fun movePlayerTo(position : Position){
@@ -114,7 +121,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
     }
 
     override fun escape() {
-        TODO("Not implemented.")
+        GameGUIManager.toGameMenu(this)
     }
 
     override fun onSet() = GameGUIManager.toZoneDisplayer(this)
