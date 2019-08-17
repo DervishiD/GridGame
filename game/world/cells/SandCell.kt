@@ -1,17 +1,15 @@
 package game.world.cells
 
-import display.images.ImageLoader
 import game.fighters.AbstractFighter
 import game.world.Position
-import llayout.utilities.GraphicAction
 
 class SandCell(position : Position) : AbstractFighterCell(position) {
 
-    companion object{
+    companion object : CellCompanion<SandCell>{
 
-        const val CELL_NAME : String = "SAND"
+        override fun cellName(): String = "SAND"
 
-        fun generateFromData(data : List<String>, line : Int, column : Int) : SandCell = SandCell(Position(line, column))
+        override fun generateFromData(data : List<String>, line : Int, column : Int) : SandCell = SandCell(Position(line, column))
 
     }
 
@@ -19,6 +17,6 @@ class SandCell(position : Position) : AbstractFighterCell(position) {
 
     override fun cellType(): CellType = CellType.NORMAL
 
-    override fun image(): GraphicAction = ImageLoader.loadSandImage()
+    override fun cellName(): String = SandCell.cellName()
 
 }

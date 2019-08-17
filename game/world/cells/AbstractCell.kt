@@ -21,8 +21,8 @@ abstract class AbstractCell(private val position : Position) {
 
         private fun callCorrectCell(cellName : String, data : List<String>, line : Int, column : Int) : AbstractCell{
             return when(cellName){
-                WaterCell.CELL_NAME -> WaterCell.generateFromData(data, line, column)
-                SandCell.CELL_NAME -> SandCell.generateFromData(data, line, column)
+                WaterCell.cellName() -> WaterCell.generateFromData(data, line, column)
+                SandCell.cellName() -> SandCell.generateFromData(data, line, column)
                 else -> TODO("Not implemented.")
             }
         }
@@ -51,8 +51,8 @@ abstract class AbstractCell(private val position : Position) {
 
     abstract fun actOnPlayerStep(player : Player)
 
-    abstract fun image() : GraphicAction
-
     abstract fun cellType() : CellType
+
+    abstract fun cellName() : String
 
 }

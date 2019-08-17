@@ -1,5 +1,6 @@
 package game.world
 
+import display.images.ImageLoader
 import game.world.cells.AbstractCell
 import llayout.utilities.GraphicAction
 
@@ -13,7 +14,7 @@ class CellGrid(private val grid: Array<Array<AbstractCell>>) {
 
     fun numberOfColumns() : Int = numberOfColumns
 
-    fun imageAt(line : Int, column : Int) : GraphicAction = cellAt(line, column).image()
+    fun imageAt(line : Int, column : Int) : GraphicAction = ImageLoader.imageOf(cellAt(line, column))
 
     fun cellAt(line : Int, column : Int) : AbstractCell = grid[line][column]
 

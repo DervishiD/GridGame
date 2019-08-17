@@ -1,17 +1,15 @@
 package game.world.cells
 
-import display.images.ImageLoader
 import game.fighters.AbstractFighter
 import game.world.Position
-import llayout.utilities.GraphicAction
 
 class WaterCell(position : Position) : AbstractFighterCell(position) {
 
-    companion object{
+    companion object : CellCompanion<WaterCell>{
 
-        const val CELL_NAME : String = "WATER"
+        override fun cellName() : String = "WATER"
 
-        fun generateFromData(data : List<String>, line : Int, column : Int) : WaterCell = WaterCell(Position(line, column))
+        override fun generateFromData(data : List<String>, line : Int, column : Int) : WaterCell = WaterCell(Position(line, column))
 
     }
 
@@ -19,6 +17,6 @@ class WaterCell(position : Position) : AbstractFighterCell(position) {
 
     override fun cellType(): CellType = CellType.WATER
 
-    override fun image(): GraphicAction = ImageLoader.loadWaterImage()
+    override fun cellName(): String = WaterCell.cellName()
 
 }

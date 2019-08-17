@@ -1,13 +1,11 @@
 package game.player
 
-import display.images.ImageLoader
 import game.fighters.AbstractFighter
 import game.stats.PlayerStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
+import game.world.cells.CellComponentCompanion
 import game.world.cells.CellType
-import llayout.utilities.GraphicAction
-import java.awt.Graphics
 
 class Player constructor(private val name : String,
                          private val stats : PlayerStats,
@@ -16,13 +14,15 @@ class Player constructor(private val name : String,
     : CellComponent
 {
 
-    private companion object{
+    companion object : CellComponentCompanion{
 
         private const val TEAM_UPPER_BOUND : Int = 10
 
         private const val DEFAULT_TEAM_UPPER_BOUND : Int = 4
 
         private enum class Direction{ UP, DOWN, LEFT, RIGHT }
+
+        override fun cellComponentID(): String = "PLAYER"
 
     }
 
@@ -97,15 +97,8 @@ class Player constructor(private val name : String,
 
     private fun teamIsFull() : Boolean = teamSize() >= fullTeamSize()
 
-    private fun direction() : Direction = direction
+    override fun reactToPlayerInteraction() {}
 
-    override fun image(): GraphicAction{
-        return when(direction()){
-            Companion.Direction.UP -> ImageLoader.loadPlayerFacingUp()
-            Companion.Direction.DOWN -> ImageLoader.loadPlayerFacingDown()
-            Companion.Direction.LEFT -> ImageLoader.loadPlayerFacingLeft()
-            Companion.Direction.RIGHT -> ImageLoader.loadPlayerFacingRight()
-        }
-    }
+    override fun componentID(): String = cellComponentID()
 
 }

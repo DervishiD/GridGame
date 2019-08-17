@@ -1,5 +1,6 @@
 package display.specialdisplayers
 
+import display.images.ImageLoader
 import game.eventhandler.KeyEventHandler
 import game.world.Position
 import game.world.Zone
@@ -12,8 +13,6 @@ import java.awt.Color
 import java.awt.Graphics
 import java.awt.Robot
 import java.awt.event.InputEvent
-import kotlin.math.ceil
-import kotlin.math.floor
 
 object ZoneDisplayer : DisplayerContainer() {
 
@@ -34,8 +33,8 @@ object ZoneDisplayer : DisplayerContainer() {
         }
 
         init{
-            addGraphicAction(cell.image() + cell.component().image(), COMPONENT_KEY)
-            cell.addComponentListener { addGraphicAction(cell.image() + cell.component().image(), COMPONENT_KEY) }
+            addGraphicAction(ImageLoader.imageOf(cell) + ImageLoader.imageOf(cell.component()), COMPONENT_KEY)
+            cell.addComponentListener { addGraphicAction(ImageLoader.imageOf(cell) + ImageLoader.imageOf(cell.component()), COMPONENT_KEY) }
             nPixelFrame(FRAME_SIZE, FRAME_COLOUR)
             addGraphicAction({ g : Graphics, w : Int, h : Int ->
                 if(position() == cell.position()){
@@ -56,11 +55,6 @@ object ZoneDisplayer : DisplayerContainer() {
     private const val IMAGE_SIZE : Int = 100
 
     private lateinit var position : Position
-
-    private var firstLineIndex : Int = 0
-    private var lastLineIndex : Int = 0
-    private var firstColumnIndex : Int = 0
-    private var lastColumnIndex : Int = 0
 
     private lateinit var zone : Zone
 
@@ -86,36 +80,28 @@ object ZoneDisplayer : DisplayerContainer() {
     fun left(){
         if(position.left() in zone){
             position = position.left()
-            if(position.column() < firstColumnIndex){
-                grid.moveAlongX(- grid.leftSideX() - position.column() * IMAGE_SIZE)
-            }
+            resetGridPosition()
         }
     }
 
     fun right(){
         if(position.right() in zone){
             position = position.right()
-            if(position.column() > lastColumnIndex){
-                grid.moveAlongX((1 + position.column()) * IMAGE_SIZE - width() + grid.leftSideX())
-            }
+            resetGridPosition()
         }
     }
 
     fun up(){
         if(position.up() in zone){
             position = position.up()
-            if(position.line() < firstLineIndex){
-                grid.moveAlongY( - grid.upSideY() - position.line() * IMAGE_SIZE )
-            }
+            resetGridPosition()
         }
     }
 
     fun down(){
         if(position.down() in zone){
             position = position.down()
-            if(position.line() > lastLineIndex){
-                grid.moveAlongY((1 + position.line()) * IMAGE_SIZE - height() + grid.upSideY())
-            }
+            resetGridPosition()
         }
     }
 
@@ -153,30 +139,22 @@ object ZoneDisplayer : DisplayerContainer() {
 
     private fun resetGridXWhenSmaller(){
         grid.setX(width() / 2)
-        firstColumnIndex = 0
-        lastColumnIndex = zone.numberOfColumns() - 1
     }
 
     private fun resetGridXWhenLarger(){
-        grid.setX((width() * 0.5 + grid.width() * 0.5 - ( position.column() + 0.5 ) * IMAGE_SIZE).toInt())
+        grid.setX(( ( width() + grid.width() ) * 0.5 - ( position.column() + 0.5 ) * IMAGE_SIZE).toInt())
         if(grid.rightSideX() < width()) grid.moveAlongX(width() - grid.rightSideX())
         if(grid.leftSideX() > 0) grid.moveAlongX(- grid.leftSideX())
-        firstColumnIndex = ceil(- grid.leftSideX().toFloat() / IMAGE_SIZE).toInt()
-        lastColumnIndex = floor( ( width().toFloat() - grid.leftSideX() ) / IMAGE_SIZE ).toInt()
     }
 
     private fun resetGridYWhenSmaller(){
         grid.setY(height() / 2)
-        firstLineIndex = 0
-        lastLineIndex = zone.numberOfLines() - 1
     }
 
     private fun resetGridYWhenLarger(){
-        grid.setY((height() * 0.5 - grid.height() * 0.5 - ( position.line() + 0.5 ) * IMAGE_SIZE).toInt())
+        grid.setY(( ( height() + grid.height() ) * 0.5 - ( position.line() + 0.5 ) * IMAGE_SIZE).toInt())
         if(grid.downSideY() < height()) grid.moveAlongY(height() - grid.downSideY())
         if(grid.upSideY() > 0) grid.moveAlongY(- grid.upSideY())
-        firstLineIndex = ceil(- grid.upSideY().toFloat() / IMAGE_SIZE).toInt()
-        lastLineIndex = floor( ( height().toFloat() - grid.upSideY() ) / IMAGE_SIZE ).toInt()
     }
 
     private fun position() : Position = position

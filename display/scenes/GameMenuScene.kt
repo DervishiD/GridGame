@@ -1,6 +1,7 @@
 package display.scenes
 
 import display.frame
+import display.images.ImageLoader
 import display.specialdisplayers.SkillTreeDisplayer
 import display.specialdisplayers.SkillTreeNodeDisplayer
 import game.eventhandler.KeyEventHandler
@@ -142,7 +143,7 @@ object GameMenuScene : LScene() {
 
         private fun addImageDisplayer(){
             add(imageDisplayer
-                .addGraphicAction({ g : Graphics, w : Int, h : Int -> fighter.image()(g, w, h) })
+                .addGraphicAction({ g : Graphics, w : Int, h : Int -> ImageLoader.imageOf(fighter)(g, w, h) })
                 .alignLeftToRight(teamIndicator, IMAGE_DISPLAYER_TEAM_INDICATOR_GAP)
                 .setY(0.5))
         }
@@ -239,7 +240,7 @@ object GameMenuScene : LScene() {
             clearPane()
 
             val image = Canvas(IMAGE_SIZE, IMAGE_SIZE)
-            image.addGraphicAction(fighter.image())
+            image.addGraphicAction(ImageLoader.imageOf(fighter))
             displayers.add(image)
             pane.add(image.alignLeftTo(IMAGE_LEFT_GAP).alignTopTo(IMAGE_TOP_GAP))
 
