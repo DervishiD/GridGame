@@ -6,13 +6,13 @@ import display.scenes.GameScene
 import display.specialdisplayers.ZoneDisplayer
 import game.eventhandler.KeyEventHandler
 import game.eventhandler.NoEventReceiver
-import game.info.ZoneInfo
+import game.info.ZoneData
 
 object GameGUIManager {
 
-    fun toZoneDisplayer(zoneInfo : ZoneInfo){
+    fun toZoneDisplayer(zoneData : ZoneData){
         frame.setScene(GameScene)
-        GameScene.load(zoneInfo)
+        GameScene.load(zoneData)
     }
 
     fun moveZoneDisplayerUp() = ZoneDisplayer.up()
@@ -23,9 +23,9 @@ object GameGUIManager {
 
     fun moveZoneDisplayerRight() = ZoneDisplayer.right()
 
-    fun toGameMenu(zoneInfo : ZoneInfo){
+    fun toGameMenu(zoneData : ZoneData){
         KeyEventHandler.setReceiver(NoEventReceiver)
-        GameMenuScene.show(zoneInfo)
+        GameMenuScene.show(zoneData)
     }
 
 }

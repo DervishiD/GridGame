@@ -6,6 +6,18 @@ import kotlin.math.min
 
 class Position(private val line : Int, private val column : Int) {
 
+    companion object{
+
+        fun encode(position : Position) : String = "(${position.line},${position.column})"
+
+        fun decode(positionCode : String) : Position{
+            val codeWithoutParentheses : String = positionCode.replace("(", "").replace(")", "")
+            val data : List<String> = codeWithoutParentheses.split(",")
+            return Position(data[0].toInt(), data[1].toInt())
+        }
+
+    }
+
     fun line() : Int = line
 
     fun column() : Int = column

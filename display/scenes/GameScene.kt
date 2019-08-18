@@ -1,7 +1,7 @@
 package display.scenes
 
 import display.specialdisplayers.ZoneDisplayer
-import game.info.ZoneInfo
+import game.info.ZoneData
 import llayout.frame.LScene
 
 object GameScene : LScene() {
@@ -10,8 +10,8 @@ object GameScene : LScene() {
         add(ZoneDisplayer.setWidth(1.0).setHeight(1.0).setX(0.5).setY(0.5))
     }
 
-    fun load(zoneInfo : ZoneInfo){
-        ZoneDisplayer.display(zoneInfo.zone(), zoneInfo.playerPosition())
+    fun load(zoneData : ZoneData){
+        ZoneDisplayer.display(zoneData.zone(), zoneData.playerPosition())
     }
 
 }

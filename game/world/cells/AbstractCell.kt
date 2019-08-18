@@ -5,7 +5,6 @@ import game.player.Player
 import game.world.Position
 import game.world.defaults.NoComponent
 import llayout.utilities.Action
-import llayout.utilities.GraphicAction
 import llayout.utilities.LObservable
 
 abstract class AbstractCell(private val position : Position) {
@@ -16,13 +15,14 @@ abstract class AbstractCell(private val position : Position) {
 
         fun generateFromString(data : String, line : Int, column : Int) : AbstractCell{
             val dataTable : List<String> = data.split(DATA_SEPARATOR)
-            return callCorrectCell(dataTable[0], dataTable, line, column)
+            return callCorrectCellGenerator(dataTable[0], dataTable, line, column)
         }
 
-        private fun callCorrectCell(cellName : String, data : List<String>, line : Int, column : Int) : AbstractCell{
+        private fun callCorrectCellGenerator(cellName : String, data : List<String>, line : Int, column : Int) : AbstractCell{
             return when(cellName){
                 WaterCell.cellName() -> WaterCell.generateFromData(data, line, column)
                 SandCell.cellName() -> SandCell.generateFromData(data, line, column)
+                WarpCell.cellName() -> WarpCell.generateFromData(data, line, column)
                 else -> TODO("Not implemented.")
             }
         }

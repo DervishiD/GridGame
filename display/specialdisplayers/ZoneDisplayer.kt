@@ -45,10 +45,7 @@ object ZoneDisplayer : DisplayerContainer() {
                     g.fillRect(w - SELECTION_FRAME_SIZE, 0, SELECTION_FRAME_SIZE, h)
                 }
             })
-            setOnKeyPressedAction { e -> KeyEventHandler.handlePress(e.keyCode) }
         }
-
-        fun cell() : AbstractCell = cell
 
     }
 
@@ -69,9 +66,9 @@ object ZoneDisplayer : DisplayerContainer() {
     }
 
     fun display(zone : Zone, startingPosition : Position){
+        if(startingPosition !in zone) throw IllegalArgumentException("The starting position is not contained in the zone.")
         this.zone = zone
         position = startingPosition
-        if(position !in zone) throw IllegalArgumentException("The starting position is not contained in the zone.")
         running = true
         reloadTiles()
         forceGainFocus()

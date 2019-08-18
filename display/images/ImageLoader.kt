@@ -3,10 +3,7 @@ package display.images
 import game.fighters.AbstractFighter
 import game.fighters.TestFighter
 import game.player.Player
-import game.world.cells.AbstractCell
-import game.world.cells.CellComponent
-import game.world.cells.SandCell
-import game.world.cells.WaterCell
+import game.world.cells.*
 import llayout.utilities.GraphicAction
 import java.awt.Graphics
 import java.awt.image.BufferedImage
@@ -65,9 +62,16 @@ object ImageLoader {
 
     private fun waterCellImage() : GraphicAction = graphicAction(WATER_IMAGE)
 
+    private fun cellImage(imageName : String) : GraphicAction = when(imageName){
+        WaterCell.cellName() -> waterCellImage()
+        SandCell.cellName() -> sandCellImage()
+        else -> NO_IMAGE
+    }
+
     fun imageOf(cell : AbstractCell) : GraphicAction = when(cell.cellName()){
         WaterCell.cellName() -> waterCellImage()
         SandCell.cellName() -> sandCellImage()
+        WarpCell.cellName() -> cellImage((cell as WarpCell).cellImage())
         else -> NO_IMAGE
     }
 

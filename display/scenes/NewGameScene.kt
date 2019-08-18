@@ -3,11 +3,11 @@ package display.scenes
 import display.frame
 import game.fighters.AbstractFighter
 import game.fighters.TestFighter
-import game.info.PlayerInfo
+import game.info.PlayerData
 import game.player.Player
 import game.world.Position
 import game.world.Zone
-import game.info.ZoneInfo
+import game.info.ZoneData
 import llayout.DEFAULT_LARGE_FONT
 import llayout.DEFAULT_MEDIUM_FONT
 import llayout.displayers.Label
@@ -171,9 +171,8 @@ object NewGameScene : LScene() {
         val defaultPosition = Position(zone.numberOfLines() / 2, zone.numberOfColumns() / 2)
         zone.cellAt(defaultPosition).setCellComponent(player())
         GameMenuScene.show(
-            ZoneInfo(
-                true,
-                PlayerInfo(player(), defaultPosition),
+            ZoneData(
+                PlayerData(player(), defaultPosition),
                 zone,
                 false,
                 setOf(),

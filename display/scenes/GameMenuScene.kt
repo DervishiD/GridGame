@@ -11,7 +11,7 @@ import game.fighters.action.FighterAction
 import game.gameobjects.GameObject
 import game.player.Player
 import game.player.QuantifiedObject
-import game.info.ZoneInfo
+import game.info.ZoneData
 import llayout.DEFAULT_MEDIUM_FONT
 import llayout.displayers.*
 import llayout.frame.LScene
@@ -491,16 +491,16 @@ object GameMenuScene : LScene() {
         setOnSaveAction { unloadInformation() }
     }
 
-    private lateinit var zoneInfo : ZoneInfo
+    private lateinit var zoneData : ZoneData
 
-    fun show(zoneInfo : ZoneInfo){
-        this.zoneInfo = zoneInfo
+    fun show(zoneData : ZoneData){
+        this.zoneData = zoneData
         loadFighters()
         loadObjects()
         frame.setScene(this)
     }
 
-    private fun player() : Player = zoneInfo.player()
+    private fun player() : Player = zoneData.player()
 
     private fun isInTeam(fighter : AbstractFighter) : Boolean = player().teamContains(fighter)
 
@@ -568,7 +568,7 @@ object GameMenuScene : LScene() {
         for(obj : QuantifiedObject in player().inventory()) OBJECT_SCROLL_PANE.add(ObjectInformationDisplayer(obj))
     }
 
-    private fun resume() = KeyEventHandler.setReceiver(zoneInfo)
+    private fun resume() = KeyEventHandler.setReceiver(zoneData)
 
     private fun save(){
         TODO("Not implemented.")

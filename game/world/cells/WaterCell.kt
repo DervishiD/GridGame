@@ -11,6 +11,8 @@ class WaterCell(position : Position) : AbstractFighterCell(position) {
 
         override fun generateFromData(data : List<String>, line : Int, column : Int) : WaterCell = WaterCell(Position(line, column))
 
+        override fun encodeData(cell: WaterCell, dataSeparator : String) : String = cellName()
+
     }
 
     override fun actOnFighterStep(fighter: AbstractFighter) {}

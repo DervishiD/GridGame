@@ -1,7 +1,9 @@
 package game.world
 
+import game.fighters.AbstractFighter
 import game.fights.FightDetector
 import game.fights.FightGenerator
+import game.player.Player
 import game.world.cells.AbstractCell
 import game.world.defaults.EmptyCell
 import llayout.utilities.GraphicAction
@@ -74,7 +76,9 @@ class Zone{
 
     fun hasAFight() : Boolean = FightDetector.detectFightFor(fightDetection)
 
-    fun generateFight() = FightGenerator.generateFightFor(this, fightGeneration)
+    fun generateFight(player : Player) : Pair<Iterable<Position>, Map<Position, AbstractFighter>>{
+        return FightGenerator.generateFightFor(this, player, fightGeneration)
+    }
 
     fun imageAt(line : Int, column : Int) : GraphicAction = cells.imageAt(line, column)
 

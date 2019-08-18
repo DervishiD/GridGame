@@ -3,7 +3,7 @@ package game.info
 import game.player.Player
 import game.world.Position
 
-class PlayerInfo(private val player : Player, private var position: Position) {
+class PlayerData(private val player : Player, private var position: Position) {
 
     fun player() : Player = player
 

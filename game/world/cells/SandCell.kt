@@ -11,6 +11,8 @@ class SandCell(position : Position) : AbstractFighterCell(position) {
 
         override fun generateFromData(data : List<String>, line : Int, column : Int) : SandCell = SandCell(Position(line, column))
 
+        override fun encodeData(cell: SandCell, dataSeparator: String): String = cellName()
+
     }
 
     override fun actOnFighterStep(fighter: AbstractFighter) {}

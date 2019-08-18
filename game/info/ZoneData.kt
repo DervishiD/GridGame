@@ -7,8 +7,7 @@ import game.player.Player
 import game.world.Position
 import game.world.Zone
 
-data class ZoneInfo(private val isANewZone : Boolean,
-                    private val playerInfo : PlayerInfo,
+data class ZoneData(private val playerInfo : PlayerData,
                     private val zone : Zone,
                     private val isFighting : Boolean,
                     private val playerFighterPositions : Iterable<Position>,
@@ -17,8 +16,6 @@ data class ZoneInfo(private val isANewZone : Boolean,
 ) : EventReceiver {
 
     fun player() : Player = playerInfo.player()
-
-    fun isANewZone() : Boolean = isANewZone
 
     fun zone() : Zone = zone
 
@@ -32,7 +29,7 @@ data class ZoneInfo(private val isANewZone : Boolean,
 
     fun hoveredPosition() : Position = hoveredPosition
 
-    private fun playerInfo() : PlayerInfo = playerInfo
+    private fun playerInfo() : PlayerData = playerInfo
 
     override fun up() = if(isFighting()) upInFight() else playerUp()
 
