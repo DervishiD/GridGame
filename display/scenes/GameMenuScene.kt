@@ -495,6 +495,7 @@ object GameMenuScene : LScene() {
 
     fun show(zoneData : ZoneData){
         this.zoneData = zoneData
+        if(zoneData.canSave()) add(SAVE_BUTTON, SAVE_AND_QUIT_BUTTON) else remove(SAVE_BUTTON, SAVE_AND_QUIT_BUTTON)
         loadFighters()
         loadObjects()
         frame.setScene(this)

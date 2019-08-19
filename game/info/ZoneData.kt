@@ -3,13 +3,15 @@ package game.info
 import display.guimanager.EventReceiver
 import display.guimanager.GameGUIManager
 import game.fighters.AbstractFighter
+import game.gamestate.GameState
+import game.gamestate.GameState.*
 import game.player.Player
 import game.world.Position
 import game.world.Zone
 
 data class ZoneData(private val playerInfo : PlayerData,
                     private val zone : Zone,
-                    private val isFighting : Boolean,
+                    private var state : GameState,
                     private val playerFighterPositions : Iterable<Position>,
                     private val enemies : Map<Position, AbstractFighter>,
                     private var hoveredPosition : Position = playerInfo.position()
@@ -19,8 +21,6 @@ data class ZoneData(private val playerInfo : PlayerData,
 
     fun zone() : Zone = zone
 
-    fun isFighting() : Boolean = isFighting
-
     fun playerFighterPositions() : Iterable<Position> = playerFighterPositions
 
     fun enemies() : Map<Position, AbstractFighter> = enemies
@@ -29,38 +29,52 @@ data class ZoneData(private val playerInfo : PlayerData,
 
     fun hoveredPosition() : Position = hoveredPosition
 
+    fun canSave() : Boolean = state == PLAYER
+
     private fun playerInfo() : PlayerData = playerInfo
 
-    override fun up() = if(isFighting()) upInFight() else playerUp()
-
-    override fun down() = if(isFighting()) downInFight() else playerDown()
-
-    override fun left() = if(isFighting()) leftInFight() else playerLeft()
-
-    override fun right() = if(isFighting()) rightInFight() else playerRight()
-
-    private fun upInFight(){
-        TODO("Not implemented.")
+    override fun up() = when(state){
+        PLAYER -> playerUp()
+        DEFAULT_FIGHT -> TODO()
+        FIGHTER_ACTION_SELECTION -> TODO()
+        BROWSING_OBJECTS -> TODO()
+        BROWSING_ACTIONS -> TODO()
+        PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
-    private fun downInFight(){
-        TODO("Not implemented.")
+    override fun down() = when(state){
+        PLAYER -> playerDown()
+        DEFAULT_FIGHT -> TODO()
+        FIGHTER_ACTION_SELECTION -> TODO()
+        BROWSING_OBJECTS -> TODO()
+        BROWSING_ACTIONS -> TODO()
+        PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
-    private fun leftInFight(){
-        TODO("Not implemented.")
+    override fun left() = when(state){
+        PLAYER -> playerLeft()
+        DEFAULT_FIGHT -> TODO()
+        FIGHTER_ACTION_SELECTION -> TODO()
+        BROWSING_OBJECTS -> TODO()
+        BROWSING_ACTIONS -> TODO()
+        PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
-    private fun rightInFight(){
-        TODO("Not implemented.")
+    override fun right() = when(state){
+        PLAYER -> playerRight()
+        DEFAULT_FIGHT -> TODO()
+        FIGHTER_ACTION_SELECTION -> TODO()
+        BROWSING_OBJECTS -> TODO()
+        BROWSING_ACTIONS -> TODO()
+        PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
     private fun playerUp(){
         player().faceUp()
         val up : Position = playerInfo().up()
         if(up in zone() && player().canStepOn(zone().cellAt(up))){
-            movePlayerTo(up)
             GameGUIManager.moveZoneDisplayerUp()
+            movePlayerTo(up)
         }
         zone().cellAt(playerPosition()).setCellComponent(player())
     }
@@ -69,8 +83,8 @@ data class ZoneData(private val playerInfo : PlayerData,
         player().faceDown()
         val down : Position = playerInfo().down()
         if(down in zone() && player().canStepOn(zone().cellAt(down))){
-            movePlayerTo(down)
             GameGUIManager.moveZoneDisplayerDown()
+            movePlayerTo(down)
         }
         zone().cellAt(playerPosition()).setCellComponent(player())
     }
@@ -79,8 +93,8 @@ data class ZoneData(private val playerInfo : PlayerData,
         player().faceLeft()
         val left : Position = playerInfo().left()
         if(left in zone() && player().canStepOn(zone().cellAt(left))){
-            movePlayerTo(left)
             GameGUIManager.moveZoneDisplayerLeft()
+            movePlayerTo(left)
         }
         zone().cellAt(playerPosition()).setCellComponent(player())
     }
@@ -89,16 +103,19 @@ data class ZoneData(private val playerInfo : PlayerData,
         player().faceRight()
         val right : Position = playerInfo().right()
         if(right in zone() && player().canStepOn(zone().cellAt(right))){
-            movePlayerTo(right)
             GameGUIManager.moveZoneDisplayerRight()
+            movePlayerTo(right)
         }
         zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
-    override fun select() = if(isFighting()) selectInFight() else playerSelect()
-
-    private fun selectInFight(){
-        TODO("Not implemented.")
+    override fun select() = when(state){
+        PLAYER -> playerSelect()
+        DEFAULT_FIGHT -> TODO()
+        FIGHTER_ACTION_SELECTION -> TODO()
+        BROWSING_OBJECTS -> TODO()
+        BROWSING_ACTIONS -> TODO()
+        PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
     private fun playerSelect(){

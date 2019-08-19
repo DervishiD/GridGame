@@ -1,6 +1,7 @@
 package game.world.cells
 
 import game.eventhandler.KeyEventHandler
+import game.gamestate.GameState
 import game.info.PlayerData
 import game.info.ZoneData
 import game.player.Player
@@ -41,14 +42,14 @@ class WarpCell(position : Position,
             val fighterPositions = zone.generateFight(player)
             ZoneData(playerData,
                      zone,
-                     isFighting,
+                     GameState.DEFAULT_FIGHT,
                      fighterPositions.first,
                      fighterPositions.second,
                      warpPosition)
         }else{
             ZoneData(playerData,
                      zone,
-                     isFighting,
+                     GameState.PLAYER,
                      setOf(),
                      mapOf(),
                      warpPosition)

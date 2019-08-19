@@ -45,6 +45,7 @@ object ZoneDisplayer : DisplayerContainer() {
                     g.fillRect(w - SELECTION_FRAME_SIZE, 0, SELECTION_FRAME_SIZE, h)
                 }
             })
+            setOnKeyPressedAction { e -> KeyEventHandler.handlePress(e.keyCode) }
         }
 
     }

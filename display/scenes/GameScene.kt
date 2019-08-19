@@ -11,7 +11,7 @@ object GameScene : LScene() {
     }
 
     fun load(zoneData : ZoneData){
-        ZoneDisplayer.display(zoneData.zone(), zoneData.playerPosition())
+        ZoneDisplayer.display(zoneData.zone(), zoneData.hoveredPosition())
     }
 
 }

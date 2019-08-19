@@ -3,6 +3,7 @@ package display.scenes
 import display.frame
 import game.fighters.AbstractFighter
 import game.fighters.TestFighter
+import game.gamestate.GameState
 import game.info.PlayerData
 import game.player.Player
 import game.world.Position
@@ -174,7 +175,7 @@ object NewGameScene : LScene() {
             ZoneData(
                 PlayerData(player(), defaultPosition),
                 zone,
-                false,
+                GameState.PLAYER,
                 setOf(),
                 mapOf()
             )

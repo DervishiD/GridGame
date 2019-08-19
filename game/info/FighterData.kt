@@ -2,7 +2,7 @@ package game.info
 
 import game.fighters.AbstractFighter
 
-class FighterInfo(private val fighter : AbstractFighter,
+class FighterData(private val fighter : AbstractFighter,
                   private var canMove : Boolean,
                   private var canAct : Boolean) {
 
