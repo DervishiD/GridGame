@@ -139,8 +139,8 @@ data class ZoneData(private val playerInfo : PlayerData,
 
     private fun defaultFightSelect(){
         val hoveredComponent : CellComponent = zone().componentAt(hoveredPosition())
-        if(hoveredComponent.componentID() == AbstractFighter.componentID()){
-            FighterMenuReceiver.setData(this, hoveredComponent as AbstractFighter)
+        if(hoveredComponent.componentID() == AbstractFighter.componentID() && player().teamContains(hoveredComponent as AbstractFighter)){
+            FighterMenuReceiver.setData(this, hoveredComponent)
             KeyEventHandler.setReceiver(FighterMenuReceiver)
         }
     }

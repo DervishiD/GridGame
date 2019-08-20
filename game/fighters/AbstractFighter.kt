@@ -7,6 +7,7 @@ import game.skilltree.GraphicalSkillTree
 import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
+import game.world.defaults.EmptyCell
 
 abstract class AbstractFighter(private var name : String) : CellComponent{
 
@@ -15,6 +16,8 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
         fun componentID() : String = "FIGHTER"
 
     }
+
+    private var cell : AbstractCell = EmptyCell
 
     protected abstract var stats : FighterStats
 
@@ -66,6 +69,13 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
 
     fun passiveModify(effectType : InteractionEffectType, value : Float) : Float = stats.passiveModify(effectType, value)
 
+    fun currentCell() : AbstractCell = cell
+
+    fun setCell(cell : AbstractCell){
+        this.cell = cell
+        cell.actOnFighterStep(this)
+    }
+
     abstract fun takeDamage(damage : Float)
 
     abstract fun isImmuneToDamage() : Boolean
@@ -75,8 +85,6 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     abstract fun heal(health : Float)
 
     abstract fun type() : CharSequence
-
-    abstract fun currentCell() : AbstractCell
 
     abstract fun canStepOn(cell : AbstractCell) : Boolean
 

@@ -6,6 +6,8 @@ import display.scenes.GameScene
 import display.specialdisplayers.ZoneDisplayer
 import game.eventhandler.KeyEventHandler
 import game.eventhandler.NoEventReceiver
+import game.fighters.AbstractFighter
+import game.info.FighterData
 import game.info.ZoneData
 import game.world.cells.CellComponent
 
@@ -31,6 +33,14 @@ object GameGUIManager {
 
     fun displayInGameInformation(component : CellComponent){
         TODO("Not implemented.")
+    }
+
+    fun displayFighterMenu(fighterData : FighterData){
+        GameScene.displayFighterMenu(fighterData)
+    }
+
+    fun backToDefault(){
+        GameScene.removeAdditionalMenus()
     }
 
 }

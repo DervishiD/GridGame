@@ -1,6 +1,7 @@
 package display.guimanager
 
 import display.specialdisplayers.FighterMenuDisplayer
+import game.eventhandler.KeyEventHandler
 import game.fighters.AbstractFighter
 import game.info.ZoneData
 import llayout.utilities.LObservable
@@ -9,12 +10,17 @@ object FighterMenuReceiver : EventReceiver {
 
     private val selectingActions : LObservable<Int> = LObservable(0)
 
+    private lateinit var zoneData : ZoneData
+
+    private lateinit var fighter : AbstractFighter
+
     init{
         selectingActions.addListener { FighterMenuDisplayer.selectingActions(selectingActions.value) }
     }
 
     fun setData(zoneData : ZoneData, fighter : AbstractFighter){
-        TODO("Not implemented.")
+        this.zoneData = zoneData
+        this.fighter = fighter
     }
 
     override fun up() {}
@@ -32,7 +38,8 @@ object FighterMenuReceiver : EventReceiver {
     }
 
     private fun selectActions(){
-        TODO("Not implemented.")
+        FighterActionSelectorReceiver.setData(zoneData, fighter)
+        KeyEventHandler.setReceiver(FighterActionSelectorReceiver)
     }
 
     private fun selectMove(){
@@ -40,15 +47,17 @@ object FighterMenuReceiver : EventReceiver {
     }
 
     private fun selectObjects(){
-        TODO("Not implemented.")
+        ObjectSelectionReceiver.setData(zoneData, fighter)
     }
 
     override fun escape() {
-        TODO("Not implemented.")
+        KeyEventHandler.setReceiver(zoneData)
+        GameGUIManager.backToDefault()
     }
 
     override fun onSet() {
-        TODO("Do not forget the GUI somewhere")
+        GameGUIManager.backToDefault()
+        GameGUIManager.displayFighterMenu(fighter)
     }
 
     private fun selectPrevious(){

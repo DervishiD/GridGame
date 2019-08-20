@@ -10,7 +10,6 @@ import game.stats.FighterStats
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponentCompanion
 import game.world.cells.CellType
-import game.world.defaults.EmptyCell
 import llayout.utilities.GraphicAction
 import llayout.utilities.StringDisplay
 import java.awt.Graphics
@@ -48,8 +47,6 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
         NEXT_LEVEL_REQUIREMENT_FUNCTION, MAX_HEALTH_LEVEL_FUNCTION, MOVING_DISTANCE_LEVEL_FUNCTION, FIGHTER_ACTIONS, AOE_ACTIONS,
         ACTIVE_MODIFIERS, PASSIVE_MODIFIERS)
 
-    private var currentCell : AbstractCell = EmptyCell
-
     override var graphicalSkillTree: GraphicalSkillTree = GraphicalSkillTree.loadFromTreeName("testTree")
 
     override fun takeDamage(damage: Float) {
@@ -70,8 +67,6 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
     }
 
     override fun heal(health: Float) = stats.heal(health)
-
-    override fun currentCell(): AbstractCell = currentCell
 
     override fun canStepOn(cell: AbstractCell): Boolean {
         return cell.cellType() != CellType.WATER
