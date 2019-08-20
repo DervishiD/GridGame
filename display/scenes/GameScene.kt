@@ -7,7 +7,7 @@ import llayout.frame.LScene
 
 object GameScene : LScene() {
 
-    private const val ZONE_DISPLAYER_WIDTH : Double = 0.7
+    private const val ZONE_DISPLAYER_WIDTH : Double = 0.8
     private const val INFO_WIDTH : Double = 1.0 - ZONE_DISPLAYER_WIDTH
 
     private const val ZONE_DISPLAYER_X : Double = INFO_WIDTH + ZONE_DISPLAYER_WIDTH / 2

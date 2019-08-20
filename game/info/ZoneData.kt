@@ -1,7 +1,9 @@
 package game.info
 
 import display.guimanager.EventReceiver
+import display.guimanager.FighterMenuReceiver
 import display.guimanager.GameGUIManager
+import game.eventhandler.KeyEventHandler
 import game.fighters.AbstractFighter
 import game.gamestate.GameState
 import game.gamestate.GameState.*
@@ -138,7 +140,8 @@ data class ZoneData(private val playerInfo : PlayerData,
     private fun defaultFightSelect(){
         val hoveredComponent : CellComponent = zone().componentAt(hoveredPosition())
         if(hoveredComponent.componentID() == AbstractFighter.componentID()){
-            TODO("Change event receiver, which changes the GUI, etc")
+            FighterMenuReceiver.setData(this, hoveredComponent as AbstractFighter)
+            KeyEventHandler.setReceiver(FighterMenuReceiver)
         }
     }
 
