@@ -3,9 +3,6 @@ package game.gamestate
 enum class GameState(private val stateName : String) {
     PLAYER("PLAYER"),
     DEFAULT_FIGHT("DEFAULT_FIGHT"),
-    FIGHTER_ACTION_SELECTION("FIGHTER_ACTION_SELECTION"),
-    BROWSING_OBJECTS("BROWSING_OBJECTS"),
-    BROWSING_ACTIONS("BROWSING_ACTIONS"),
     PERFORMING_ACTION_ON_ZONE("PERFORMING_ACTION_ON_ZONE");
 
     companion object{

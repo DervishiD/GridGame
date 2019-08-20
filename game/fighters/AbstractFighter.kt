@@ -10,6 +10,12 @@ import game.world.cells.CellComponent
 
 abstract class AbstractFighter(private var name : String) : CellComponent{
 
+    companion object{
+
+        fun componentID() : String = "FIGHTER"
+
+    }
+
     protected abstract var stats : FighterStats
 
     protected abstract var graphicalSkillTree : GraphicalSkillTree
@@ -73,5 +79,9 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     abstract fun currentCell() : AbstractCell
 
     abstract fun canStepOn(cell : AbstractCell) : Boolean
+
+    override fun componentID(): String = AbstractFighter.componentID()
+
+    override fun reactToPlayerInteraction() {}
 
 }

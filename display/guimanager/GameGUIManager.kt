@@ -7,6 +7,7 @@ import display.specialdisplayers.ZoneDisplayer
 import game.eventhandler.KeyEventHandler
 import game.eventhandler.NoEventReceiver
 import game.info.ZoneData
+import game.world.cells.CellComponent
 
 object GameGUIManager {
 
@@ -26,6 +27,10 @@ object GameGUIManager {
     fun toGameMenu(zoneData : ZoneData){
         KeyEventHandler.setReceiver(NoEventReceiver)
         GameMenuScene.show(zoneData)
+    }
+
+    fun displayInGameInformation(component : CellComponent){
+        TODO("Not implemented.")
     }
 
 }

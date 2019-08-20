@@ -5,6 +5,7 @@ import game.fights.FightDetector
 import game.fights.FightGenerator
 import game.player.Player
 import game.world.cells.AbstractCell
+import game.world.cells.CellComponent
 import game.world.defaults.EmptyCell
 import llayout.utilities.GraphicAction
 import java.io.BufferedReader
@@ -80,11 +81,11 @@ class Zone{
         return FightGenerator.generateFightFor(this, player, fightGeneration)
     }
 
-    fun imageAt(line : Int, column : Int) : GraphicAction = cells.imageAt(line, column)
-
     fun cellAt(line : Int, column : Int) : AbstractCell = cells.cellAt(line, column)
 
     fun cellAt(position : Position) : AbstractCell = cells.cellAt(position)
+
+    fun componentAt(position : Position) : CellComponent = cellAt(position).component()
 
     fun moveCellComponent(from : Position, to : Position) = cells.moveComponent(from, to)
 

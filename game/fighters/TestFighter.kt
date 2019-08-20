@@ -79,8 +79,4 @@ class TestFighter(name : String = "NO_NAME") : AbstractFighter(name) {
 
     override fun type(): CharSequence = "testFighter"
 
-    override fun reactToPlayerInteraction() {}
-
-    override fun componentID(): String = cellComponentID()
-
 }

@@ -8,6 +8,7 @@ import game.gamestate.GameState.*
 import game.player.Player
 import game.world.Position
 import game.world.Zone
+import game.world.cells.CellComponent
 
 data class ZoneData(private val playerInfo : PlayerData,
                     private val zone : Zone,
@@ -31,41 +32,31 @@ data class ZoneData(private val playerInfo : PlayerData,
 
     fun canSave() : Boolean = state == PLAYER
 
+    private fun canPause() : Boolean = state == PLAYER || state == DEFAULT_FIGHT
+
     private fun playerInfo() : PlayerData = playerInfo
 
     override fun up() = when(state){
         PLAYER -> playerUp()
-        DEFAULT_FIGHT -> TODO()
-        FIGHTER_ACTION_SELECTION -> TODO()
-        BROWSING_OBJECTS -> TODO()
-        BROWSING_ACTIONS -> TODO()
+        DEFAULT_FIGHT -> defaultFightUp()
         PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
     override fun down() = when(state){
         PLAYER -> playerDown()
-        DEFAULT_FIGHT -> TODO()
-        FIGHTER_ACTION_SELECTION -> TODO()
-        BROWSING_OBJECTS -> TODO()
-        BROWSING_ACTIONS -> TODO()
+        DEFAULT_FIGHT -> defaultFightDown()
         PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
     override fun left() = when(state){
         PLAYER -> playerLeft()
-        DEFAULT_FIGHT -> TODO()
-        FIGHTER_ACTION_SELECTION -> TODO()
-        BROWSING_OBJECTS -> TODO()
-        BROWSING_ACTIONS -> TODO()
+        DEFAULT_FIGHT -> defaultFightLeft()
         PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
     override fun right() = when(state){
         PLAYER -> playerRight()
-        DEFAULT_FIGHT -> TODO()
-        FIGHTER_ACTION_SELECTION -> TODO()
-        BROWSING_OBJECTS -> TODO()
-        BROWSING_ACTIONS -> TODO()
+        DEFAULT_FIGHT -> defaultFightRight()
         PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
@@ -109,18 +100,46 @@ data class ZoneData(private val playerInfo : PlayerData,
         zone().cellAt(playerPosition()).setCellComponent(player())
     }
 
+    private fun defaultFightUp(){
+        setHoveredPosition(hoveredPosition().up())
+        GameGUIManager.moveZoneDisplayerUp()
+        GameGUIManager.displayInGameInformation(zone().componentAt(hoveredPosition()))
+    }
+
+    private fun defaultFightDown(){
+        setHoveredPosition(hoveredPosition().down())
+        GameGUIManager.moveZoneDisplayerDown()
+        GameGUIManager.displayInGameInformation(zone().componentAt(hoveredPosition()))
+    }
+
+    private fun defaultFightLeft(){
+        setHoveredPosition(hoveredPosition().left())
+        GameGUIManager.moveZoneDisplayerLeft()
+        GameGUIManager.displayInGameInformation(zone().componentAt(hoveredPosition()))
+    }
+
+    private fun defaultFightRight(){
+        setHoveredPosition(hoveredPosition().right())
+        GameGUIManager.moveZoneDisplayerRight()
+        GameGUIManager.displayInGameInformation(zone().componentAt(hoveredPosition()))
+    }
+
     override fun select() = when(state){
         PLAYER -> playerSelect()
-        DEFAULT_FIGHT -> TODO()
-        FIGHTER_ACTION_SELECTION -> TODO()
-        BROWSING_OBJECTS -> TODO()
-        BROWSING_ACTIONS -> TODO()
+        DEFAULT_FIGHT -> defaultFightSelect()
         PERFORMING_ACTION_ON_ZONE -> TODO()
     }
 
     private fun playerSelect(){
         val frontPosition : Position = playerInfo().front()
         if(frontPosition in zone()) zone().cellAt(frontPosition).component().reactToPlayerInteraction()
+    }
+
+    private fun defaultFightSelect(){
+        val hoveredComponent : CellComponent = zone().componentAt(hoveredPosition())
+        if(hoveredComponent.componentID() == AbstractFighter.componentID()){
+            TODO("Change event receiver, which changes the GUI, etc")
+        }
     }
 
     private fun movePlayerTo(position : Position){
@@ -135,7 +154,7 @@ data class ZoneData(private val playerInfo : PlayerData,
     }
 
     override fun escape() {
-        GameGUIManager.toGameMenu(this)
+        if(canPause()) GameGUIManager.toGameMenu(this) else TODO("Not implemented.")
     }
 
     override fun onSet() = GameGUIManager.toZoneDisplayer(this)
