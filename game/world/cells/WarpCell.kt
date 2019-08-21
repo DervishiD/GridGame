@@ -16,10 +16,19 @@ class WarpCell(position : Position,
 
     companion object : CellCompanion<WarpCell>{
 
+        private const val CELL_TYPE_INDEX : Int = 1
+        private const val WARP_ZONE_NAME_INDEX : Int = 2
+        private const val POSITION_INDEX : Int = 3
+        private const val CELL_IMAGE_INDEX : Int = 4
+
         override fun cellName(): String = "WARP"
 
         override fun generateFromData(data : List<String>, line : Int, column : Int) : WarpCell{
-            return WarpCell(Position(line, column), CellType.decode(data[1]), data[2], Position.decode(data[3]), data[4])
+            return WarpCell(Position(line, column),
+                            CellType.decode(data[CELL_TYPE_INDEX]),
+                            data[WARP_ZONE_NAME_INDEX],
+                            Position.decode(data[POSITION_INDEX]),
+                            data[CELL_IMAGE_INDEX])
         }
 
         override fun encodeData(cell: WarpCell, dataSeparator: String): String {

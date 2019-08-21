@@ -19,6 +19,10 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
 
     private var cell : AbstractCell = EmptyCell
 
+    private var hasAlreadyActed : Boolean = false
+
+    private var hasAlreadyMoved : Boolean = false
+
     protected abstract var stats : FighterStats
 
     protected abstract var graphicalSkillTree : GraphicalSkillTree
@@ -74,6 +78,30 @@ abstract class AbstractFighter(private var name : String) : CellComponent{
     fun setCell(cell : AbstractCell){
         this.cell = cell
         cell.actOnFighterStep(this)
+    }
+
+    fun hasAlreadyActed() : Boolean = hasAlreadyActed
+
+    fun hasAlreadyMoved() : Boolean = hasAlreadyMoved
+
+    fun canMove() : Boolean = !hasAlreadyMoved()
+
+    fun canAct() : Boolean = !hasAlreadyActed()
+
+    fun setHasActed() = setHasActed(true)
+
+    fun setHasNotActed() = setHasActed(false)
+
+    fun setHasMoved() = setHasMoved(true)
+
+    fun setHasNotMoved() = setHasMoved(false)
+
+    private fun setHasActed(hasAttacked : Boolean){
+        hasAlreadyActed = hasAttacked
+    }
+
+    private fun setHasMoved(hasMoved : Boolean){
+        hasAlreadyMoved = hasMoved
     }
 
     abstract fun takeDamage(damage : Float)

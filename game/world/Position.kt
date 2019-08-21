@@ -8,11 +8,12 @@ class Position(private val line : Int, private val column : Int) {
 
     companion object{
 
-        fun encode(position : Position) : String = "(${position.line},${position.column})"
+        private const val DATA_SEPARATOR : String = ","
+
+        fun encode(position : Position) : String = "${position.line}$DATA_SEPARATOR${position.column}"
 
         fun decode(positionCode : String) : Position{
-            val codeWithoutParentheses : String = positionCode.replace("(", "").replace(")", "")
-            val data : List<String> = codeWithoutParentheses.split(",")
+            val data : List<String> = positionCode.split(DATA_SEPARATOR)
             return Position(data[0].toInt(), data[1].toInt())
         }
 

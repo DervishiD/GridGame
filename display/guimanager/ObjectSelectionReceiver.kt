@@ -47,8 +47,7 @@ object ObjectSelectionReceiver : EventReceiver {
         GameGUIManager.backToDefault()
         FighterMenuReceiver.setData(zoneData, fighter)
         KeyEventHandler.setReceiver(FighterMenuReceiver)
-        TODO("Display fighter menu needs a FighterData")
-//        GameGUIManager.displayFighterMenu()
+        GameGUIManager.displayFighterMenu(fighter)
     }
 
     override fun onSet() {

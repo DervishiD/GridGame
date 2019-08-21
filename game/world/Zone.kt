@@ -7,10 +7,11 @@ import game.player.Player
 import game.world.cells.AbstractCell
 import game.world.cells.CellComponent
 import game.world.defaults.EmptyCell
-import llayout.utilities.GraphicAction
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class Zone{
 
@@ -91,6 +92,27 @@ class Zone{
 
     operator fun contains(position : Position) : Boolean{
         return position.isPositive() && position.line() < numberOfLines() && position.column() < numberOfColumns()
+    }
+
+    fun availablePositions(fighter : AbstractFighter) : Collection<Position>{
+        val result : MutableCollection<Position> = mutableSetOf()
+        val fighterPosition : Position = fighter.currentCell().position()
+        val upperLeftCorner = Position(floor(fighterPosition.line() - fighter.movingDistance()).toInt(),
+                                       floor(fighterPosition.column() - fighter.movingDistance()).toInt())
+        val lowerRightCorner = Position(ceil(fighterPosition.line() + fighter.movingDistance()).toInt(),
+            ceil(fighterPosition.column() + fighter.movingDistance()).toInt())
+        for(position : Position in upperLeftCorner..lowerRightCorner){
+            if(position in this && !cellAt(position).containsObject() && fighter.canStepOn(cellAt(position))){
+                result.add(position)
+            }
+        }
+        return result
+    }
+    
+    fun availableCells(fighter : AbstractFighter) : Collection<AbstractCell>{
+        val result : MutableCollection<AbstractCell> = mutableSetOf()
+        for(position : Position in availablePositions(fighter)) result.add(cellAt(position))
+        return result
     }
 
 }

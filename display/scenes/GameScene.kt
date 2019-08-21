@@ -3,7 +3,7 @@ package display.scenes
 import display.specialdisplayers.FighterMenuDisplayer
 import display.specialdisplayers.InGameInformation
 import display.specialdisplayers.ZoneDisplayer
-import game.info.FighterData
+import game.fighters.AbstractFighter
 import game.info.ZoneData
 import llayout.frame.LScene
 
@@ -27,8 +27,8 @@ object GameScene : LScene() {
         ZoneDisplayer.display(zoneData.zone(), zoneData.hoveredPosition())
     }
 
-    fun displayFighterMenu(fighterData : FighterData){
-        FighterMenuDisplayer.loadFor(fighterData)
+    fun displayFighterMenu(fighter : AbstractFighter){
+        FighterMenuDisplayer.loadFor(fighter)
         add(FighterMenuDisplayer.setX(FIGHTER_MENU_DISPLAYER_X).setY(FIGHTER_MENU_DISPLAYER_Y))
     }
 

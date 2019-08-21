@@ -1,7 +1,7 @@
 package display.specialdisplayers
 
 import game.eventhandler.KeyEventHandler
-import game.info.FighterData
+import game.fighters.AbstractFighter
 import llayout.displayers.Canvas
 import llayout.displayers.ContainerCanvas
 import llayout.interfaces.StandardLContainer
@@ -41,8 +41,9 @@ object FighterMenuDisplayer : ContainerCanvas() {
         focusActionsButton()
     }
 
-    fun loadFor(fighterData : FighterData){
-        TODO("Not implemented.")
+    fun loadFor(fighter : AbstractFighter){
+        if(fighter.canMove()) add(MOVE_BUTTON) else remove(MOVE_BUTTON)
+        if(fighter.canAct()) add(ACTIONS_BUTTON) else remove(ACTIONS_BUTTON)
     }
 
     fun selectingActions(actions : Int) = when(actions % 3){
